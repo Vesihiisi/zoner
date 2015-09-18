@@ -36,6 +36,33 @@ main {
     color: #CF000F;
 }
 
+input[type=submit] {
+    height: 32px;
+    line-height: 32px;
+    border-radius: 2px;
+    font-size: 13px;
+    font-weight: bold;
+    padding: 0 20px;
+    background-color: #D64242;
+    color: white;
+    border: none;
+}
+
+input[type=submit]:hover {
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+}
+
+input[type=search] {
+    border: 1px solid #d9d9d9;
+    line-height: 200%;
+    border-radius: 2px;
+    margin-bottom: 1em;
+}
+
+input[type=search]:hover {
+    border-color: #c6c6c6;
+}
+
 @media screen and (max-width: 500px) {
     body {
         font-size: 100%;
