@@ -1,0 +1,12 @@
+.yes, .no {
+    color: white;
+    padding: 2px;
+}
+
+.yes {
+    background-color: #4DAF7C;
+}
+
+.no {
+    background-color: #CF000F;
+}
