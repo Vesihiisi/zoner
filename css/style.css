@@ -21,6 +21,7 @@ main {
     width: 60%;
     max-width: 900px;
     line-height: 150%;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
 
 .zoneName {
@@ -105,9 +106,9 @@ input[type=search]:hover {
         padding: 0;
         margin: 0;
         text-align: center;
+        box-shadow: none;
     }
     input[type=search] {
-        border: 1px solid #d9d9d9;
         width: 100%;
         line-height: 200%;
         font-size: 1em;
