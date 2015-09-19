@@ -36,6 +36,11 @@ main {
     color: #CF000F;
 }
 
+a {
+    text-decoration: none;
+    color: #4183D7;
+}
+
 input[type=submit] {
     height: 32px;
     line-height: 32px;
