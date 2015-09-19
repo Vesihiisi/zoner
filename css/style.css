@@ -1,6 +1,6 @@
 * {
-margin: 0;
-padding: 0;
+    margin: 0;
+    padding: 0;
 }
 
 body {
@@ -10,7 +10,6 @@ body {
 }
 
 main {
-
     background-color: white;
     padding: 1em;
     margin: 0 auto;
@@ -24,7 +23,8 @@ main {
     font-weight: bolder;
 }
 
-.yes, .no {
+.yes,
+.no {
     font-weight: bolder;
 }
 
@@ -70,9 +70,22 @@ input[type=search]:hover {
 
 @media screen and (max-width: 500px) {
     body {
-        font-size: 100%;
+        font-size: 200%;
     }
     main {
         width: 100%;
+        padding: 0;
+        margin: 0;
+        text-align: center;
+    }
+    input[type=search] {
+        border: 1px solid #d9d9d9;
+        width: 100%;
+        line-height: 200%;
+        font-size: 1em;
+        margin-bottom: 0;
+    }
+    input[type=submit] {
+        width: 60%;
     }
 }
