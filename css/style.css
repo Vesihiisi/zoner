@@ -1,3 +1,4 @@
+@import url('http://fonts.googleapis.com/css?family=Open+Sans');
 * {
     margin: 0;
     padding: 0;
@@ -9,7 +10,7 @@
 
 body {
     background-color: #4183D7;
-    font-family: sans-serif;
+    font-family: 'Open Sans', sans-serif;
     font-size: 150%;
 }
 
