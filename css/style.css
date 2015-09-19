@@ -3,6 +3,10 @@
     padding: 0;
 }
 
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
 body {
     background-color: #4183D7;
     font-family: sans-serif;
@@ -68,9 +72,33 @@ input[type=search]:hover {
     border-color: #c6c6c6;
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 768px) {
     body {
         font-size: 200%;
+    }
+    main {
+        width: 100%;
+        padding: 0.5em;
+        margin: 0 auto;
+    }
+    input[type=search] {
+        border: 1px solid #d9d9d9;
+        width: 100%;
+        line-height: 200%;
+        font-size: 1em;
+        margin-bottom: 0;
+    }
+    input[type=submit] {
+
+        height: 3em;
+                width: 100%;
+        margin-bottom: 1em;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    body {
+        font-size: 150%;
     }
     main {
         width: 100%;
@@ -86,6 +114,7 @@ input[type=search]:hover {
         margin-bottom: 0;
     }
     input[type=submit] {
-        width: 60%;
+        width: 100%;
+        margin-bottom: 1em;
     }
 }
