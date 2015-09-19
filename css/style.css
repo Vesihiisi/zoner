@@ -29,6 +29,10 @@ main {
     font-weight: bolder;
 }
 
+.ownerInfo {
+    position: relative; top: -0.5em; font-size: 60%;
+}
+
 .yes,
 .no {
     font-weight: bolder;
