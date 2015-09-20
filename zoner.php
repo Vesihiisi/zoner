@@ -1,7 +1,7 @@
 <?php
 
 $defaultzone = "LindChalm";
-
+define('DATABASE', __DIR__ . "/db/turf.sqlite", true);
 if (isset($_GET['z'])) {
     if (strlen($_GET['z']) == 0) {
         $zone = $defaultzone;
@@ -17,6 +17,23 @@ function dump($array)
 {
     echo "<pre>" . htmlentities(print_r($array, 1)) . "</pre>";
 }
+
+function connectToDb($filename)
+    {
+    $dsn = "sqlite:$filename";
+    try
+        {
+        $db = new PDO($dsn);
+        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        return $db;
+        }
+
+    catch(PDOException $e)
+        {
+        echo "Failed to connect to the database using DSN:<br />$dsn<br />";
+        throw $e;
+        }
+    }
 
 date_default_timezone_set('Europe/Stockholm');
 $urlUsers = 'http://api.turfgame.com/v4/users';
@@ -40,10 +57,35 @@ function postToApi($array, $url)
 
 
 $responseZone = postToApi(array('name' => $zone), $urlZones);
-
 $zoneName = $responseZone->name;
-$zoneLong = $responseZone->longitude;
-$zoneLat = $responseZone->latitude;
+
+
+$db = connectToDb(DATABASE);
+$sql = "SELECT * FROM zones WHERE name=?";
+$params = [$zoneName];
+$stmt = $db->prepare($sql);
+$stmt->execute($params);
+$res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+dump($res[0]);
+
+$zoneLong = $res[0]["longitude"];
+$zoneLat = $res[0]["latitude"];
+$zoneRegion = $res[0]["region"];
+
+function getRegion($regionID) {
+    $db = connectToDb(DATABASE);
+    $sql = "SELECT * FROM regions WHERE regionID=?";
+    $params = [$regionID];
+    $stmt = $db->prepare($sql);
+    $stmt->execute($params);
+    $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $res[0];
+}
+
+$regionArray = getRegion($zoneRegion);
+$regionName = $regionArray["regionName"];
+$country = $regionArray["country"];
+
 $ownerName = $responseZone->currentOwner->name;
 
 
@@ -55,8 +97,8 @@ $ownerLevel = $responseUser->rank;
 $ownerBlocktime = $responseUser->blocktime;
 $ownerOwns = count($responseUser->zones);
 
-$pph = $responseZone->pointsPerHour;
-$takeoverPoints = $responseZone->takeoverPoints;
+$pph = $res[0]["pointsPerHour"];
+$takeoverPoints = $res[0]["takeoverPoints"];
 $timestamp = $responseZone->dateLastTaken;
 $timestampObject = strtotime($timestamp);
 $timeTaken = date("d-m-Y H:i", $timestampObject);
@@ -142,7 +184,7 @@ var marker = L.marker([latitude, longitude]).addTo(map);
 
 </script>
 <div class="info">
-
+<p><?php echo "$country >> $regionName"?></p>
 <p><span class="zoneName"><?php echo $zoneName?></span> (<?php echo $takeoverPoints?>, +<?php echo $pph?>)
 <a href='#' onclick='location.reload(true); return false;'>refresh</a>
 </p>
