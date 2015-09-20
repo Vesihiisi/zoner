@@ -25,11 +25,11 @@ function connectToDb($filename)
     }
 
 $term = trim(strip_tags($_GET['term']));
-$term = "%".$term."%";
+$term = $term."%";
 
 $db = connectToDb(DATABASE);
 
-$sql = "SELECT name FROM zones WHERE name LIKE ?";
+$sql = "SELECT name FROM zones WHERE name LIKE ? ORDER BY name LIMIT 15";
 $params = [$term];
 $stmt = $db->prepare($sql);
 $stmt->execute($params);
