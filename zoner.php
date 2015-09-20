@@ -66,13 +66,19 @@ $canBeTakenPrint = date("H:i", $canBeTaken);
 $rightNow = time();
 
 if ($rightNow > $canBeTaken) {
-    $canBeTakenIndicator = "yes";
-    $differencePrint = "";
+    $canBeTakenIndicator = "";
 } else {
     $canBeTakenIndicator = "no";
     $difference = ceil(($canBeTaken - $rightNow)/60);
     $pageTitle = "($canBeTakenPrint) $pageTitle";
     $differencePrint = "($difference min from now)";
+    $canBeTakenIndicator = <<<EOD
+    →
+<span class="$canBeTakenIndicator">$canBeTakenPrint</span>
+$differencePrint
+
+
+EOD;
 }
 ?>
 
@@ -143,9 +149,7 @@ var marker = L.marker([latitude, longitude]).addTo(map);
 <p><span class="ownerName"><a href="<?php echo $ownerUrl?>"><?php echo $ownerName?></a></span>
 <span class="ownerInfo">(lvl <?php echo $ownerLevel?>, owns <?php echo $ownerOwns?>)</span>
 </p>
-<p><?php echo $timeTaken?> →
-<span class="<?php echo $canBeTakenIndicator?>"><?php echo $canBeTakenPrint?></span>
-<?php echo $differencePrint?>
+<p><?php echo $timeTaken?><?php echo $canBeTakenIndicator?>
 </p>
 
 </div>
