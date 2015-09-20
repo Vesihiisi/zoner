@@ -14,6 +14,10 @@ body {
     font-size: 150%;
 }
 
+header {
+    background-color: #1F5EAC;
+}
+
 main {
     background-color: white;
     padding: 1em;
@@ -51,6 +55,10 @@ a {
     color: #4183D7;
 }
 
+form {
+    padding: 0.5em;
+}
+
 input[type=submit] {
     height: 32px;
     line-height: 32px;
@@ -71,7 +79,6 @@ input[type=search] {
     border: 1px solid #d9d9d9;
     line-height: 200%;
     border-radius: 2px;
-    margin-bottom: 1em;
 }
 
 input[type=search]:hover {
@@ -81,6 +88,9 @@ input[type=search]:hover {
 @media screen and (max-width: 768px) {
     body {
         font-size: 200%;
+    }
+    form {
+        padding: 0;
     }
     main {
         width: 100%;
@@ -97,7 +107,7 @@ input[type=search]:hover {
     input[type=submit] {
 
         height: 3em;
-                width: 100%;
+        width: 100%;
         margin-bottom: 1em;
     }
 }
@@ -121,6 +131,6 @@ input[type=search]:hover {
     }
     input[type=submit] {
         width: 100%;
-        margin-bottom: 1em;
+        margin-bottom: 0;
     }
 }
