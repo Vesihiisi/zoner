@@ -4,29 +4,52 @@
     padding: 0;
 }
 
-*, *:before, *:after {
-  box-sizing: border-box;
+*,
+*:before,
+*:after {
+    box-sizing: border-box;
 }
 
 body {
-    background-color: #4183D7;
+    background-color: #2196f3;
     font-family: 'Open Sans', sans-serif;
-    font-size: 150%;
+    font-size: 120%;
 }
 
 header {
-    background-color: #1F5EAC;
+    background-color: #1565c0;
+    padding: 0.5em 0;
+}
+
+.header-content {
+    width: 80%;
+    margin: 0 auto;
 }
 
 main {
     background-color: white;
-    padding: 1em;
+    padding: 0.3em;
     margin: 0 auto;
     margin-top: 1em;
-    width: 60%;
-    max-width: 900px;
+    width: 80%;
+    max-width: 1000px;
     line-height: 150%;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    overflow: auto;
+}
+
+.map {
+    background-color: gray;
+    width: 50%;
+    height: 400px;
+    float: left;
+}
+
+.info {
+    outline: 1px solid #FF8282;
+    width: 50%;
+    float: left;
+    padding: 0.2em;
 }
 
 .zoneName {
@@ -34,7 +57,9 @@ main {
 }
 
 .ownerInfo {
-    position: relative; top: -0.5em; font-size: 60%;
+    position: relative;
+    top: -0.5em;
+    font-size: 60%;
 }
 
 .yes,
@@ -56,7 +81,7 @@ a {
 }
 
 form {
-    padding: 0.5em;
+    padding: 0;
 }
 
 input[type=submit] {
@@ -66,7 +91,7 @@ input[type=submit] {
     font-size: 13px;
     font-weight: bold;
     padding: 0 20px;
-    background-color: #D64242;
+    background-color: #ff4081;
     color: white;
     border: none;
 }
@@ -83,6 +108,35 @@ input[type=search] {
 
 input[type=search]:hover {
     border-color: #c6c6c6;
+}
+
+.ui-widget {
+    font-size: 0.7em !important;
+}
+
+.ui-widget-content {
+    background-color: white;
+    border: 1px solid #aaaaaa;
+    color: #222222;
+}
+
+.ui-state-hover,
+.ui-widget-content .ui-state-hover,
+.ui-widget-header .ui-state-hover,
+.ui-state-focus,
+.ui-widget-content .ui-state-focus,
+.ui-widget-header .ui-state-focus {
+    background: #eee !important;
+    background-image: none !important;
+    border: 1px solid #999999;
+    color: #212121;
+    font-weight: normal;
+}
+
+.leaflet-top,
+.leaflet-bottom {
+    z-index: 10 !important;
+    /* was 1000 */
 }
 
 @media screen and (max-width: 768px) {
@@ -105,7 +159,6 @@ input[type=search]:hover {
         margin-bottom: 0;
     }
     input[type=submit] {
-
         height: 3em;
         width: 100%;
         margin-bottom: 1em;
@@ -114,7 +167,7 @@ input[type=search]:hover {
 
 @media screen and (max-width: 500px) {
     body {
-        font-size: 150%;
+        font-size: 130%;
     }
     main {
         width: 100%;
@@ -122,6 +175,13 @@ input[type=search]:hover {
         margin: 0;
         text-align: center;
         box-shadow: none;
+    }
+    .map, .info {
+        float: none;
+        width: 100%;
+    }
+    .map {
+        height: 170px;
     }
     input[type=search] {
         width: 100%;
