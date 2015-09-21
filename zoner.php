@@ -180,6 +180,9 @@ L.tileLayer('https://api.tiles.mapbox.com/v4/' + appConfig.mapID + '/{z}/{x}/{y}
     accessToken: appConfig.accessToken
 }).addTo(map);
 var marker = L.marker([latitude, longitude]).addTo(map);
+
+function populateMap() {
+
 var north = map.getBounds().getNorth();
 var east = map.getBounds().getEast();
 var south = map.getBounds().getSouth();
@@ -214,8 +217,20 @@ $.ajax({
             })
 
         }
+
     }
 });
+
+}
+
+populateMap();
+
+map.on('moveend', function() {
+    console.log("re-populating map");
+    populateMap();
+})
+
+
 
 </script>
 <div class="info">

@@ -41,14 +41,14 @@ main {
 
 .map {
     background-color: gray;
-    width: 50%;
+    width: 70%;
     height: 400px;
     float: left;
 }
 
 .info {
     outline: 1px solid #FF8282;
-    width: 50%;
+    width: 30%;
     float: left;
     padding: 0.2em;
 }

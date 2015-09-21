@@ -36,7 +36,7 @@ $west = $_POST["west"]; // long
 $name = $_POST["name"];
 
 $db = connectToDb(DATABASE);
-$sql = "SELECT * FROM zones WHERE latitude > ? AND latitude < ? AND longitude > ? AND longitude < ? AND NOT (name = ?)";
+$sql = "SELECT * FROM zones WHERE latitude > ? AND latitude < ? AND longitude > ? AND longitude < ? AND NOT (name = ?) LIMIT 50";
 $params = [$south, $north, $west, $east, $name];
 $stmt = $db->prepare($sql);
 $stmt->execute($params);
