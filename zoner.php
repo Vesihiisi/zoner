@@ -53,7 +53,7 @@ $googleArray = json_decode($googleData, true);
 function getRegion($regionID) {
     $sql = "SELECT * FROM regions WHERE regionID=?";
     $params = [$regionID];
-    return $getFromDb($sql, $params)[0];
+    return getFromDb($sql, $params)[0];
 }
 
 $regionArray = getRegion($zoneRegion);
