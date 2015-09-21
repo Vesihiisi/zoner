@@ -66,11 +66,15 @@ $params = [$zoneName];
 $stmt = $db->prepare($sql);
 $stmt->execute($params);
 $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
-dump($res[0]);
 
 $zoneLong = $res[0]["longitude"];
 $zoneLat = $res[0]["latitude"];
 $zoneRegion = $res[0]["region"];
+$googleUrl= "http://maps.googleapis.com/maps/api/geocode/json?latlng=$zoneLat,$zoneLong&sensor=true";
+$googleData = file_get_contents($googleUrl);
+$googleArray = json_decode($googleData, true);
+//dump($googleArray["results"][0]["address_components"][2]);
+//dump($googleArray["results"][0]["address_components"][3]);
 
 function getRegion($regionID) {
     $db = connectToDb(DATABASE);
@@ -133,8 +137,8 @@ EOD;
 <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
- <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.css" />
-  <script src="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.js"></script>
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.css" />
+<script src="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.js"></script>
 <title><?php echo $pageTitle?> | turf zoner</title>
   <script>
   $(function() {
@@ -176,15 +180,14 @@ L.tileLayer('https://api.tiles.mapbox.com/v4/' + appConfig.mapID + '/{z}/{x}/{y}
     accessToken: appConfig.accessToken
 }).addTo(map);
 var marker = L.marker([latitude, longitude]).addTo(map);
-
-// map.on('moveend', function(e) {
-// console.log(map.getBounds().getCenter())
-// });
-
+console.log(map.getBounds().getNorth());
+console.log(map.getBounds().getEast());
+console.log(map.getBounds().getSouth());
+console.log(map.getBounds().getWest());
 
 </script>
 <div class="info">
-<p><?php echo "$country >> $regionName"?></p>
+<p class="breadcrumb"><?php echo "$country >> $regionName"?></p>
 <p><span class="zoneName"><?php echo $zoneName?></span> (<?php echo $takeoverPoints?>, +<?php echo $pph?>)
 <a href='#' onclick='location.reload(true); return false;'>refresh</a>
 </p>
