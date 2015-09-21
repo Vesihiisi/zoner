@@ -24,17 +24,9 @@ var latitude = "<?php echo $zoneLat; ?>";
 var longitude = "<?php echo $zoneLong; ?>";
 </script>
 <div class="info">
-<p class="breadcrumb"><?php echo "$country >> $regionName"?></p>
-<p><span class="zoneName"><?php echo $zoneName?></span> (<?php echo $takeoverPoints?>, +<?php echo $pph?>)
-<a href='#' onclick='location.reload(true); return false;'>refresh</a>
-</p>
-<p><span class="ownerName"><a href="<?php echo $ownerUrl?>"><?php echo $ownerName?></a></span>
-<span class="ownerInfo">(lvl <?php echo $ownerLevel?>, owns <?php echo $ownerOwns?>)</span>
-</p>
-<p><?php echo $timeTaken?><?php echo $canBeTakenIndicator?>
-</p>
 
 </div>
+
 </main>
 </body>
 </html>

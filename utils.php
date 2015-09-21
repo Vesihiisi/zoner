@@ -14,6 +14,21 @@ function dump($array)
     echo "<pre>" . htmlentities(print_r($array, 1)) . "</pre>";
 }
 
+function postToApi($array, $url)
+{
+    $json_encoded = json_encode($array);
+    $options = array(
+        'http' => array(
+            'method' => 'POST',
+            'content' => "[" . $json_encoded . "]",
+            'header' => "Content-Type: application/json"
+        )
+    );
+    $context  = stream_context_create($options);
+    $result = file_get_contents($url, false, $context);
+    $response = json_decode($result);
+    return $response[0];
+}
 
 
 function connectToDb($filename)

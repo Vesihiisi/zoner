@@ -15,21 +15,7 @@ $pageTitle = $zone;
 
 
 
-function postToApi($array, $url)
-{
-    $json_encoded = json_encode($array);
-    $options = array(
-        'http' => array(
-            'method' => 'POST',
-            'content' => "[" . $json_encoded . "]",
-            'header' => "Content-Type: application/json"
-        )
-    );
-    $context  = stream_context_create($options);
-    $result = file_get_contents($url, false, $context);
-    $response = json_decode($result);
-    return $response[0];
-}
+
 
 
 $responseZone = postToApi(array('name' => $zone), $urlZones);
@@ -102,4 +88,4 @@ if ($rightNow > $canBeTaken) {
 $differencePrint
 EOD;
 }
-include("zoneinfo.php");
+
