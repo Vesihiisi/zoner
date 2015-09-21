@@ -44,7 +44,7 @@ $ownerName = $responseZone->currentOwner->name;
 $responseUser = postToApi(array('name' => $ownerName), $urlUsers);
 
 
-$ownerUrl = "https://turfgame.com/user/".$ownerName;
+$ownerUrl = "userinfo.php?u=".$ownerName;
 $ownerLevel = $responseUser->rank;
 $ownerBlocktime = $responseUser->blocktime;
 $ownerOwns = count($responseUser->zones);

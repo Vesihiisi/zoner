@@ -1,9 +1,13 @@
 $(document).ready(function() {
 
+var icon = L.MakiMarkers.icon({
+    color: "#b0b",
+    size: "m"
+});
+
+
     function populateMap() {
-        console.log(userName);
         var data = {
-            "name": userName,
             "zones": userZones,
         };
         $.ajax({
@@ -19,10 +23,10 @@ $(document).ready(function() {
                     latitude = data[i][0]["latitude"];
                     var marker = L.marker([latitude, longitude], {
                         title: zoneName,
+                        icon: icon,
                     })
                     allMarkers.push(marker);
                 }
-                console.log(allMarkers)
                 var markerGroup = L.featureGroup(allMarkers)
                 var map = L.map('map').fitBounds(markerGroup.getBounds())
                 for (var i = 0; i < allMarkers.length; i++) {
@@ -37,17 +41,5 @@ $(document).ready(function() {
             }
         });
     }
-
-
-
     populateMap();
-
-
-
-
-
-    // map.on('moveend', function() {
-    //     console.log("re-populating map");
-    // })
-
 });

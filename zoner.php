@@ -18,5 +18,3 @@ if (isset($_GET['u'])) {
     $user = $_GET['u'];
     include("processuser.php");
 }
-
-dump($_GET);

@@ -1,5 +1,10 @@
 $(document).ready(function() {
 
+var icon = L.MakiMarkers.icon({
+    color: "#8CA8CB",
+    size: "m"
+});
+
     function populateMap() {
         var north = map.getBounds().getNorth();
         var east = map.getBounds().getEast();
@@ -24,6 +29,7 @@ $(document).ready(function() {
                     longitude = data[i]["longitude"];
                     var marker = L.marker([latitude, longitude], {
                         title: zoneName,
+                        icon: icon,
                     }).addTo(map);
                     marker.on('click', function() {
                         var url = "?z=" + this.options.title;

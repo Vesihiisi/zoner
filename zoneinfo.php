@@ -9,6 +9,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.css" />
 <script src="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.js"></script>
+<script src="js/Leaflet.MakiMarkers.js"></script>
 <script src="js/script.js"></script>
 <title><?php echo $pageTitle?> | turf zoner</title>
 </head>
