@@ -170,7 +170,6 @@ EOD;
 &nbsp;
 </div>
 <script type="text/javascript">
-
 var latitude = "<?php echo $zoneLat; ?>";
 var longitude = "<?php echo $zoneLong; ?>";
 var map = L.map('map').setView([latitude, longitude], 14);
@@ -186,7 +185,7 @@ var east = map.getBounds().getEast();
 var south = map.getBounds().getSouth();
 var west = map.getBounds().getWest();
 var data = {
-    "name" : "<?php echo $zoneName; ?>",
+    "name": "<?php echo $zoneName; ?>",
     "north": north,
     "east": east,
     "south": south,
@@ -197,28 +196,26 @@ var data = {
 
 $.ajax({
 
-                type: "POST",
-                data: data,
-                dataType: "json",
-                url: "locator.php",
-                success: function(data){
-                    for (var i=0;i<data.length;i++) {
-                        name = data[i]["name"];
-                        latitude = data[i]["latitude"];
-                        longitude = data[i]["longitude"];
-                        var marker = L.marker([latitude, longitude], {
-                            title : name,
-                        }).addTo(map);
-                        marker.on('click', function() {
-                            var url = "?z=" + name;
-                            window.location.href = url;
-                        })
+    type: "POST",
+    data: data,
+    dataType: "json",
+    url: "locator.php",
+    success: function(data) {
+        for (var i = 0; i < data.length; i++) {
+            zoneName = data[i]["name"];
+            latitude = data[i]["latitude"];
+            longitude = data[i]["longitude"];
+            var marker = L.marker([latitude, longitude], {
+                title: zoneName,
+            }).addTo(map);
+            marker.on('click', function() {
+                var url = "?z=" + this.options.title;
+                window.location.href = url;
+            })
 
-                    }
-                }
-            });
-
-
+        }
+    }
+});
 
 </script>
 <div class="info">
@@ -236,4 +233,4 @@ $.ajax({
 </main>
 </body>
 </html>
-
+<script src="js/script.js"></script>
