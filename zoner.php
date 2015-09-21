@@ -66,6 +66,16 @@ $regionArray = getRegion($zoneRegion);
 $regionName = $regionArray["regionName"];
 $country = $regionArray["country"];
 
+    $db = connectToDb(DATABASE);
+    $sql = "SELECT countryName FROM countries WHERE countryCode=?";
+    $params = [$country];
+    $stmt = $db->prepare($sql);
+    $stmt->execute($params);
+    $resCountry = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+$country = $resCountry[0]["countryName"];
+
+
 $ownerName = $responseZone->currentOwner->name;
 
 
