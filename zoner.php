@@ -117,6 +117,7 @@ EOD;
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.css" />
 <script src="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.js"></script>
+<script src="js/script.js"></script>
 <title><?php echo $pageTitle?> | turf zoner</title>
 </head>
 <body>
@@ -130,15 +131,6 @@ EOD;
 <script type="text/javascript">
 var latitude = "<?php echo $zoneLat; ?>";
 var longitude = "<?php echo $zoneLong; ?>";
-var map = L.map('map').setView([latitude, longitude], 14);
-L.tileLayer('https://api.tiles.mapbox.com/v4/' + appConfig.mapID + '/{z}/{x}/{y}.png?access_token=' + appConfig.accessToken, {
-    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
-    maxZoom: 18,
-    id: appConfig.mapID,
-    accessToken: appConfig.accessToken
-}).addTo(map);
-var marker = L.marker([latitude, longitude]).addTo(map);
-
 </script>
 <div class="info">
 <p class="breadcrumb"><?php echo "$country >> $regionName"?></p>
@@ -155,4 +147,4 @@ var marker = L.marker([latitude, longitude]).addTo(map);
 </main>
 </body>
 </html>
-<script src="js/script.js"></script>
+
