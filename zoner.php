@@ -36,12 +36,10 @@ $responseZone = postToApi(array('name' => $zone), $urlZones);
 $zoneName = $responseZone->name;
 
 
-$db = connectToDb(DATABASE);
 $sql = "SELECT * FROM zones WHERE name=?";
 $params = [$zoneName];
-$stmt = $db->prepare($sql);
-$stmt->execute($params);
-$res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$res = getFromDb($sql, $params);
+
 
 $zoneLong = $res[0]["longitude"];
 $zoneLat = $res[0]["latitude"];

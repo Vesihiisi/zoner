@@ -28,4 +28,11 @@ function connectToDb($filename)
     }
 }
 
-
+function getFromDb($query, $params)
+{
+    $db = connectToDb(DATABASE);
+    $stmt = $db->prepare($query);
+    $stmt->execute($params);
+    $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $res;
+}
