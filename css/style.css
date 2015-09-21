@@ -1,4 +1,4 @@
-@import url('http://fonts.googleapis.com/css?family=Open+Sans');
+@import url('http://fonts.googleapis.com/css?family=Open+Sans:400,300');
 * {
     margin: 0;
     padding: 0;
@@ -88,7 +88,9 @@ a {
 
 form {
     padding: 0;
+    display: inline-block;
 }
+
 
 input[type=submit] {
     height: 32px;
@@ -114,6 +116,22 @@ input[type=search] {
 
 input[type=search]:hover {
     border-color: #c6c6c6;
+}
+
+.nav-main {
+    display: inline-block;
+    font-size: 130%;
+
+}
+
+.nav-main a {
+    color: white;
+    font-weight: 300;
+    margin: 0 20px;
+}
+
+.nav-main a:hover {
+    text-decoration: underline;
 }
 
 .ui-widget {
