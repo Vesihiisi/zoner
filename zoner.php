@@ -118,19 +118,6 @@ EOD;
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.css" />
 <script src="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.js"></script>
 <title><?php echo $pageTitle?> | turf zoner</title>
-  <script>
-  $(function() {
-    console.log("i work");
-    $( "#z" ).autocomplete({
-      source: "autocomplete.php",
-      minLength: 2,
-      select: function(event, ui) {
-        $(this).val(ui.item.value);
-        $(this).parents("form").submit();
-   }
-    });
-  });
-  </script>
 </head>
 <body>
 
@@ -151,54 +138,6 @@ L.tileLayer('https://api.tiles.mapbox.com/v4/' + appConfig.mapID + '/{z}/{x}/{y}
     accessToken: appConfig.accessToken
 }).addTo(map);
 var marker = L.marker([latitude, longitude]).addTo(map);
-
-function populateMap() {
-
-var north = map.getBounds().getNorth();
-var east = map.getBounds().getEast();
-var south = map.getBounds().getSouth();
-var west = map.getBounds().getWest();
-var data = {
-    "name": "<?php echo $zoneName; ?>",
-    "north": north,
-    "east": east,
-    "south": south,
-    "west": west
-};
-
-
-
-$.ajax({
-
-    type: "POST",
-    data: data,
-    dataType: "json",
-    url: "locator.php",
-    success: function(data) {
-        for (var i = 0; i < data.length; i++) {
-            zoneName = data[i]["name"];
-            latitude = data[i]["latitude"];
-            longitude = data[i]["longitude"];
-            var marker = L.marker([latitude, longitude], {
-                title: zoneName,
-            }).addTo(map);
-            marker.on('click', function() {
-                var url = "?z=" + this.options.title;
-                window.location.href = url;
-            })
-
-        }
-
-    }
-});
-
-}
-
-
-
-
-
-
 
 </script>
 <div class="info">
