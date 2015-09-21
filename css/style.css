@@ -22,7 +22,8 @@ header {
 }
 
 .header-content {
-    width: 80%;
+    width: 85%;
+    max-width: 1100px;
     margin: 0 auto;
 }
 
@@ -31,8 +32,8 @@ main {
     padding: 0.3em;
     margin: 0 auto;
     margin-top: 1em;
-    width: 80%;
-    max-width: 1000px;
+    width: 85%;
+    max-width: 1100px;
     line-height: 150%;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
     overflow: auto;
@@ -50,6 +51,11 @@ main {
     width: 50%;
     float: left;
     padding: 0.2em;
+}
+
+.breadcrumb {
+    font-size: 75%;
+    color: #5A5A5A;
 }
 
 .zoneName {
@@ -141,7 +147,7 @@ input[type=search]:hover {
 
 @media screen and (max-width: 768px) {
     body {
-        font-size: 200%;
+        font-size: 120%;
     }
     form {
         padding: 0;
@@ -150,6 +156,12 @@ input[type=search]:hover {
         width: 100%;
         padding: 0.5em;
         margin: 0 auto;
+    }
+    .map {
+        width: 60%;
+    }
+    .info {
+        width: 40%;
     }
     input[type=search] {
         border: 1px solid #d9d9d9;
