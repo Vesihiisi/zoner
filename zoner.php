@@ -170,9 +170,10 @@ EOD;
 &nbsp;
 </div>
 <script type="text/javascript">
+
 var latitude = "<?php echo $zoneLat; ?>";
 var longitude = "<?php echo $zoneLong; ?>";
-var map = L.map('map').setView([latitude, longitude], 15);
+var map = L.map('map').setView([latitude, longitude], 14);
 L.tileLayer('https://api.tiles.mapbox.com/v4/' + appConfig.mapID + '/{z}/{x}/{y}.png?access_token=' + appConfig.accessToken, {
     attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
     maxZoom: 18,
@@ -180,10 +181,44 @@ L.tileLayer('https://api.tiles.mapbox.com/v4/' + appConfig.mapID + '/{z}/{x}/{y}
     accessToken: appConfig.accessToken
 }).addTo(map);
 var marker = L.marker([latitude, longitude]).addTo(map);
-console.log(map.getBounds().getNorth());
-console.log(map.getBounds().getEast());
-console.log(map.getBounds().getSouth());
-console.log(map.getBounds().getWest());
+var north = map.getBounds().getNorth();
+var east = map.getBounds().getEast();
+var south = map.getBounds().getSouth();
+var west = map.getBounds().getWest();
+var data = {
+    "name" : "<?php echo $zoneName; ?>",
+    "north": north,
+    "east": east,
+    "south": south,
+    "west": west
+};
+
+
+
+$.ajax({
+
+                type: "POST",
+                data: data,
+                dataType: "json",
+                url: "locator.php",
+                success: function(data){
+                    for (var i=0;i<data.length;i++) {
+                        name = data[i]["name"];
+                        latitude = data[i]["latitude"];
+                        longitude = data[i]["longitude"];
+                        var marker = L.marker([latitude, longitude], {
+                            title : name,
+                        }).addTo(map);
+                        marker.on('click', function() {
+                            var url = "?z=" + name;
+                            window.location.href = url;
+                        })
+
+                    }
+                }
+            });
+
+
 
 </script>
 <div class="info">
