@@ -31,7 +31,6 @@ function postToApi($array, $url)
     return $response[0];
 }
 
-
 function connectToDb($filename)
 {
     $dsn = "sqlite:$filename";
