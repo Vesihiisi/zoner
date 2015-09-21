@@ -51,27 +51,21 @@ $googleArray = json_decode($googleData, true);
 //dump($googleArray["results"][0]["address_components"][3]);
 
 function getRegion($regionID) {
-    $db = connectToDb(DATABASE);
     $sql = "SELECT * FROM regions WHERE regionID=?";
     $params = [$regionID];
-    $stmt = $db->prepare($sql);
-    $stmt->execute($params);
-    $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    return $res[0];
+    return $getFromDb($sql, $params)[0];
 }
 
 $regionArray = getRegion($zoneRegion);
 $regionName = $regionArray["regionName"];
 $country = $regionArray["country"];
 
-    $db = connectToDb(DATABASE);
-    $sql = "SELECT countryName FROM countries WHERE countryCode=?";
-    $params = [$country];
-    $stmt = $db->prepare($sql);
-    $stmt->execute($params);
-    $resCountry = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$country = $resCountry[0]["countryName"];
+$sqlCountryName = "SELECT countryName FROM countries WHERE countryCode=?";
+$params = [$country];
+$country = getFromDb($sqlCountryName, $params)[0]["countryName"];
+
+
 
 
 $ownerName = $responseZone->currentOwner->name;
