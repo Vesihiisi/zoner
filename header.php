@@ -5,6 +5,14 @@ if ($currentPage == "zoneinfo.php") {
 } elseif ($currentPage == "userinfo.php") {
     $formName = "u";
 }
+
+function highlightNavbar($uri)
+{
+    if ($uri == basename(strtok($_SERVER["REQUEST_URI"], '?'))) {
+        return "class=here";
+    }
+}
+
 ?>
 
 <header>
@@ -14,8 +22,8 @@ if ($currentPage == "zoneinfo.php") {
     <input type="submit" value="Search">
 </form>
 <nav class="nav-main">
-<a href="zoneinfo.php">ZoneInfo</a>
-<a href="userinfo.php">UserInfo</a>
+<a <?= highlightNavbar("zoneinfo.php"); ?> href="zoneinfo.php">ZoneInfo</a>
+<a <?= highlightNavbar("userinfo.php"); ?> href="userinfo.php">UserInfo</a>
 </nav>
 </div>
 </header>

@@ -122,7 +122,6 @@ input[type=search]:hover {
 .nav-main {
     display: inline-block;
     font-size: 130%;
-
 }
 
 .nav-main a {
@@ -133,6 +132,10 @@ input[type=search]:hover {
 
 .nav-main a:hover {
     text-decoration: underline;
+}
+
+.nav-main .here {
+    font-weight: bold;
 }
 
 .ui-widget {

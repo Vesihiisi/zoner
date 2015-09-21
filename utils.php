@@ -9,6 +9,7 @@ $urlRegions = "http://api.turfgame.com/v4/regions";
 
 define('DATABASE', __DIR__ . "/db/turf.sqlite", true);
 
+
 function dump($array)
 {
     echo "<pre>" . htmlentities(print_r($array, 1)) . "</pre>";
