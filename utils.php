@@ -4,6 +4,8 @@ $defaultzone = "LindChalm";
 date_default_timezone_set('Europe/Stockholm');
 $urlUsers = 'http://api.turfgame.com/v4/users';
 $urlZones = 'http://api.turfgame.com/v4/zones';
+$urlZonesAll = "http://api.turfgame.com/v4/zones/all";
+$urlRegions = "http://api.turfgame.com/v4/regions";
 
 define('DATABASE', __DIR__ . "/db/turf.sqlite", true);
 
