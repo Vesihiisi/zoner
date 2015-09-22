@@ -22,6 +22,7 @@ $(document).ready(function() {
             dataType: "json",
             url: "userlocator.php",
             success: function(data) {
+                var rightNow = Date.now()
                 var allMarkers = [];
                 for (var i = 0; i < data.length; i++) {
                     zoneName = data[i][0]["name"];
@@ -30,10 +31,10 @@ $(document).ready(function() {
                     timestamp = userZonesWithTimestamps[i][zoneName];
                     var locale_date = parseDate(timestamp);
                     var marker = L.marker([latitude, longitude], {
-                        title: zoneName + " " + locale_date,
+                        title: zoneName,
                         icon: icon,
                     })
-                    marker.bindPopup(locale_date.toString() ).openPopup();
+                    marker.bindPopup((Math.ceil((rightNow-locale_date)/60000)).toString() + " min" ).openPopup();
                     allMarkers.push(marker);
                 }
                 var markerGroup = L.featureGroup(allMarkers)
