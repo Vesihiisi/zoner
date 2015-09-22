@@ -33,12 +33,13 @@ $(document).ready(function() {
                         title: zoneName + " " + locale_date,
                         icon: icon,
                     })
+                    marker.bindPopup(locale_date.toString() ).openPopup();
                     allMarkers.push(marker);
                 }
                 var markerGroup = L.featureGroup(allMarkers)
                 var map = L.map('map').fitBounds(markerGroup.getBounds())
                 for (var i = 0; i < allMarkers.length; i++) {
-                    allMarkers[i].addTo(map)
+                    allMarkers[i].addTo(map);
                 }
                 L.tileLayer('https://api.tiles.mapbox.com/v4/' + appConfig.mapID + '/{z}/{x}/{y}.png?access_token=' + appConfig.accessToken, {
                     attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
