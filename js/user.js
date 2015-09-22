@@ -4,8 +4,22 @@ $(document).ready(function() {
         return new Date(Date.parse(str_date));
     }
 
-    var icon = L.MakiMarkers.icon({
-        color: "#b0b",
+    function minutesToIcon(minutes) {
+        if (minutes < 60) {
+            return iconRed;
+        }
+        else {
+            return iconBlue;
+        }
+    }
+
+    var iconRed = L.MakiMarkers.icon({
+        color: "#EA1010",
+        size: "m"
+    });
+
+    var iconBlue = L.MakiMarkers.icon({
+        color: "#86989F",
         size: "m"
     });
 
@@ -30,11 +44,13 @@ $(document).ready(function() {
                     latitude = data[i][0]["latitude"];
                     timestamp = userZonesWithTimestamps[i][zoneName];
                     var locale_date = parseDate(timestamp);
+                    howLongAgo = Math.ceil((rightNow-locale_date)/60000)
+                    console.log(howLongAgo)
                     var marker = L.marker([latitude, longitude], {
                         title: zoneName,
-                        icon: icon,
+                        icon: minutesToIcon(howLongAgo),
                     })
-                    marker.bindPopup((Math.ceil((rightNow-locale_date)/60000)).toString() + " min" ).openPopup();
+                    marker.bindPopup(howLongAgo.toString() + " min" ).openPopup();
                     allMarkers.push(marker);
                 }
                 var markerGroup = L.featureGroup(allMarkers)
