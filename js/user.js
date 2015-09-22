@@ -1,12 +1,18 @@
 $(document).ready(function() {
 
-var icon = L.MakiMarkers.icon({
-    color: "#b0b",
-    size: "m"
-});
+    function parseDate(str_date) {
+        return new Date(Date.parse(str_date));
+    }
+
+    var icon = L.MakiMarkers.icon({
+        color: "#b0b",
+        size: "m"
+    });
 
 
     function populateMap() {
+        userZonesWithTimestamps = jQuery.parseJSON(userZonesWithTimestamps);
+        console.log(userZonesWithTimestamps);
         var data = {
             "zones": userZones,
         };
@@ -21,8 +27,10 @@ var icon = L.MakiMarkers.icon({
                     zoneName = data[i][0]["name"];
                     longitude = data[i][0]["longitude"];
                     latitude = data[i][0]["latitude"];
+                    timestamp = userZonesWithTimestamps[i][zoneName];
+                    var locale_date = parseDate(timestamp);
                     var marker = L.marker([latitude, longitude], {
-                        title: zoneName,
+                        title: zoneName + " " + locale_date,
                         icon: icon,
                     })
                     allMarkers.push(marker);

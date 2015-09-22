@@ -21,10 +21,8 @@
 &nbsp;
 </div>
 <script type="text/javascript">
-var latitude = "<?php echo $zoneLat; ?>";
-var longitude = "<?php echo $zoneLong; ?>";
-var userName = "<?php echo $userName; ?>";
-var userZones = "<?php echo json_encode($userZones); ?>";
+var userZones = "<?php echo json_encode($userZones) ?>";
+var userZonesWithTimestamps = '<?php echo json_encode($userZonesWithTimestamps) ?>';
 </script>
 <div class="info">
 
