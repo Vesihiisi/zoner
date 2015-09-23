@@ -17,13 +17,10 @@ function highlightNavbar($uri)
 
 <header>
 <div class="header-content">
+<span class="logo"><h1>TurfZoner</h1></span>
     <form>
     <input type="search" name="<?php echo $formName;?>" id="<?php echo $formName;?>" placeholder="Enter search term." value="" autofocus>
     <input type="submit" value="Search">
 </form>
-<nav class="nav-main">
-<a <?= highlightNavbar("zoneinfo.php"); ?> href="zoneinfo.php">ZoneInfo</a>
-<a <?= highlightNavbar("userinfo.php"); ?> href="userinfo.php">UserInfo</a>
-</nav>
 </div>
 </header>

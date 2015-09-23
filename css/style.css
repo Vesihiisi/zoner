@@ -1,4 +1,4 @@
-@import url('http://fonts.googleapis.com/css?family=Open+Sans:400,300');
+@import url('http://fonts.googleapis.com/css?family=Open+Sans:600,400,300|Righteous');
 
 * {
     margin: 0;
@@ -12,20 +12,23 @@
 }
 
 body {
-    background-color: #2196f3;
+    background-color: #E0E4CC;
     font-family: 'Open Sans', sans-serif;
     font-size: 120%;
 }
 
 header {
-    background-color: #1565c0;
+    background-color:  #69D2E7;
     padding: 0.5em 0;
+    overflow: auto;
 }
 
 .header-content {
     width: 85%;
     max-width: 1100px;
     margin: 0 auto;
+    font-family: 'Righteous', cursive;
+    position: relative;
 }
 
 main {
@@ -38,20 +41,45 @@ main {
     line-height: 150%;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
     overflow: auto;
+    position: relative;
 }
 
 .map {
     background-color: gray;
-    width: 70%;
-    height: 400px;
+    width: 100%;
+    height: 600px;
     float: left;
 }
 
 .info {
-    outline: 1px solid #FF8282;
-    width: 30%;
-    float: left;
+    background: rgba(255,255,255, .9);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    color: black;
+    width: 300px;
+    position: absolute;
+    height: 200px;
+    padding: 0;
+    right: 0;
+    margin: 0.5em;
+    font-weight: 400;
+}
+
+.info-header {
+    background-color: #A7DBD8;
+    border-top-left-radius: inherit;
+    border-top-right-radius: inherit;
+    text-align: center;
+    font-size: 14px;
+    color: black;
+}
+
+.info-body {
     padding: 0.2em;
+        font-size: 14px;
+}
+
+.info-user {
+
 }
 
 .breadcrumb {
@@ -60,26 +88,10 @@ main {
 }
 
 .zoneName {
-    font-weight: bolder;
-}
-
-.ownerInfo {
-    position: relative;
-    top: -0.5em;
-    font-size: 60%;
-}
-
-.yes,
-.no {
-    font-weight: bolder;
-}
-
-.yes {
-    color: #4DAF7C;
-}
-
-.no {
-    color: #CF000F;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 16px;
 }
 
 a {
@@ -89,8 +101,21 @@ a {
 
 form {
     padding: 0;
-    display: inline-block;
+    float: right;
+    position: absolute;
+    right: 0;
 }
+
+.logo {
+    float: left;
+    padding: 0;
+    color: #363636;
+}
+
+h1 {
+    font-size: 30px;
+}
+
 
 
 input[type=submit] {
@@ -98,9 +123,9 @@ input[type=submit] {
     line-height: 32px;
     border-radius: 2px;
     font-size: 13px;
-    font-weight: bold;
+    font-weight: 600;
     padding: 0 20px;
-    background-color: #ff4081;
+    background-color:  #FA6900;
     color: white;
     border: none;
 }
@@ -119,24 +144,6 @@ input[type=search]:hover {
     border-color: #c6c6c6;
 }
 
-.nav-main {
-    display: inline-block;
-    font-size: 130%;
-}
-
-.nav-main a {
-    color: white;
-    font-weight: 300;
-    margin: 0 20px;
-}
-
-.nav-main a:hover {
-    text-decoration: underline;
-}
-
-.nav-main .here {
-    font-weight: bold;
-}
 
 .ui-widget {
     font-size: 0.7em !important;
@@ -165,66 +172,4 @@ input[type=search]:hover {
 .leaflet-bottom {
     z-index: 10 !important;
     /* was 1000 */
-}
-
-@media screen and (max-width: 768px) {
-    body {
-        font-size: 120%;
-    }
-    form {
-        padding: 0;
-    }
-    main {
-        width: 100%;
-        padding: 0.5em;
-        margin: 0 auto;
-    }
-    .map {
-        width: 60%;
-    }
-    .info {
-        width: 40%;
-    }
-    input[type=search] {
-        border: 1px solid #d9d9d9;
-        width: 100%;
-        line-height: 200%;
-        font-size: 1em;
-        margin-bottom: 0;
-    }
-    input[type=submit] {
-        height: 3em;
-        width: 100%;
-        margin-bottom: 1em;
-    }
-}
-
-@media screen and (max-width: 500px) {
-    body {
-        font-size: 130%;
-    }
-    main {
-        width: 100%;
-        padding: 0;
-        margin: 0;
-        text-align: center;
-        box-shadow: none;
-    }
-    .map, .info {
-        float: none;
-        width: 100%;
-    }
-    .map {
-        height: 170px;
-    }
-    input[type=search] {
-        width: 100%;
-        line-height: 200%;
-        font-size: 1em;
-        margin-bottom: 0;
-    }
-    input[type=submit] {
-        width: 100%;
-        margin-bottom: 0;
-    }
 }

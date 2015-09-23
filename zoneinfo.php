@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.css" />
 <script src="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.js"></script>
 <script src="js/Leaflet.MakiMarkers.js"></script>
+<script src="js/jquery-dateFormat.min.js"></script>
 <script src="js/script.js"></script>
 <title><?php echo $pageTitle?> | turf zoner</title>
 </head>
@@ -24,17 +25,13 @@
 var latitude = "<?php echo $zoneLat; ?>";
 var longitude = "<?php echo $zoneLong; ?>";
 </script>
-<div class="info">
-<p class="breadcrumb"><?php echo "$country >> $regionName"?></p>
-<p><span class="zoneName"><?php echo $zoneName?></span> (<?php echo $takeoverPoints?>, +<?php echo $pph?>)
-<a href='#' onclick='location.reload(true); return false;'>refresh</a>
-</p>
-<p><span class="ownerName"><a href="<?php echo $ownerUrl?>"><?php echo $ownerName?></a></span>
-<span class="ownerInfo">(lvl <?php echo $ownerLevel?>, owns <?php echo $ownerOwns?>)</span>
-</p>
-<p><?php echo $timeTaken?><?php echo $canBeTakenIndicator?>
-</p>
-
+<div class="info" id="info">
+<div class="info-header"><p class="zoneName"></p></div>
+<div class="info-body">
+    <div class="info-zone"><p class="zoneData"></p></div>
+    <div class="info-user"><p class="owner"></p></div>
+    <div class="info-taken"><p class="taken"></p></div>
+</div>
 </div>
 </main>
 </body>
