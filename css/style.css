@@ -134,13 +134,18 @@ input[type=submit]:hover {
     box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
 }
 
-input[type=search] {
-    border: 1px solid #d9d9d9;
-    line-height: 200%;
-    border-radius: 2px;
+input[type=text] {
+    background-color: #f0f0f0;
+    border: medium none;
+    color: #666;
+    height: 32px;
+    line-height: 32px;
+    padding: 0 8px;
+    top: 8px;
+    width: 260px;
 }
 
-input[type=search]:hover {
+input[type=text]:hover {
     border-color: #c6c6c6;
 }
 
