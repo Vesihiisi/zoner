@@ -106,7 +106,10 @@ $(document).ready(function() {
 
     function createMap(where) {
         var map = L.map(where).setView([57.708, 11.975], 13);
-        map.locate({setView: true, maxZoom: 15});
+        map.locate({
+            setView: true,
+            maxZoom: 15
+        });
         L.tileLayer('https://api.tiles.mapbox.com/v4/' + appConfig.mapID + '/{z}/{x}/{y}.png?access_token=' + appConfig.accessToken, {
             attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
             maxZoom: 18,
@@ -341,6 +344,31 @@ $(document).ready(function() {
         });
     }
 
+    function panToZone(zoneName) {
+        var data = {
+            "name": zoneName,
+        }
+        $.ajax({
+            type: "POST",
+            data: data,
+            dataType: "json",
+            url: "getZoneInfo.php",
+            success: function(data) {
+                var latLong = getZoneCoords(data)
+                map.setView([latLong[0], latLong[1]], 13);
+            }
+        });
+    }
+
+    function getZoneCoords(data) {
+        var latLong = []
+        latLong.push(data[0].latitude)
+        latLong.push(data[0].longitude)
+        console.log(latLong)
+        return latLong
+    }
+
+
     var map = createMap('map');
     populateMap(map)
     $(".info").hide();
@@ -355,8 +383,15 @@ $(document).ready(function() {
         minLength: 2,
         select: function(event, ui) {
             $(this).val(ui.item.value);
-            $(this).parents("form").submit();
+            if (event.keyCode == 13) {
+                $('#z').submit()
+            }
         }
     });
+
+    $("#searchForm").on('submit', function(e) {
+        e.preventDefault()
+        panToZone($("#z").val())
+    })
 
 });
