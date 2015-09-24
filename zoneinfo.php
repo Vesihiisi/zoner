@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
+
 <script src="config.js"></script>
 <link href="css/style.css" rel="stylesheet"/>
 <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
@@ -19,12 +20,6 @@
 <?php include("zoner.php");?>
 <main>
 <div class="map" id ="map">
-&nbsp;
-</div>
-<script type="text/javascript">
-var latitude = "<?php echo $zoneLat; ?>";
-var longitude = "<?php echo $zoneLong; ?>";
-</script>
 <div class="info" id="info">
 <div class="info-header"><p class="zoneName"></p></div>
 <div class="info-body">
@@ -33,6 +28,12 @@ var longitude = "<?php echo $zoneLong; ?>";
     <div class="info-taken"><p class="taken"></p></div>
 </div>
 </div>
+</div>
+<script type="text/javascript">
+var latitude = "<?php echo $zoneLat; ?>";
+var longitude = "<?php echo $zoneLong; ?>";
+</script>
+
 </main>
 </body>
 </html>

@@ -17,7 +17,7 @@ function highlightNavbar($uri)
 
 <header>
 <div class="header-content">
-<span class="logo"><h1>TurfZoner</h1></span>
+<span class="logo"><h1>.</h1></span>
     <form>
     <input type="text" name="<?php echo $formName;?>" id="<?php echo $formName;?>" placeholder="Enter search term." value="" autofocus>
     <input type="submit" value="Search">
