@@ -94,7 +94,8 @@ $(document).ready(function() {
     var myMarker = L.Marker.extend({
         options: {
             zoneName: null,
-            active: false
+            active: false,
+            riseOnHover: true
         }
     })
 
