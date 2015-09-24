@@ -74,10 +74,11 @@ main {
     text-align: center;
     font-size: 14px;
     color: black;
+    padding: 0.4em;
 }
 
 .info-body {
-    padding: 0.2em;
+    padding: 0.5em 1em;
     font-size: 14px;
 }
 
@@ -117,7 +118,7 @@ h1 {
     font-size: 30px;
 }
 
-input[type=submit] {
+input[type=button] {
     height: 32px;
     line-height: 32px;
     border-radius: 2px;
@@ -129,7 +130,7 @@ input[type=submit] {
     border: none;
 }
 
-input[type=submit]:hover {
+input[type=button]:hover {
     box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
 }
 

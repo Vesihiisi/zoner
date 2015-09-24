@@ -394,4 +394,9 @@ $(document).ready(function() {
         panToZone($("#z").val())
     })
 
+    $("#search").click(function() {
+        console.log("clicked")
+        panToZone($("#z").val())
+    })
+
 });
