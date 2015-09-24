@@ -355,7 +355,7 @@ $(document).ready(function() {
             url: "getZoneInfo.php",
             success: function(data) {
                 var latLong = getZoneCoords(data)
-                map.setView([latLong[0], latLong[1]], 13);
+                map.setView([latLong[0], latLong[1]]);
             }
         });
     }
