@@ -105,7 +105,8 @@ $(document).ready(function() {
     });
 
     function createMap(where) {
-        var map = L.map(where).setView([latitude, longitude], 15);
+        var map = L.map(where).setView([57.708, 11.975], 13);
+        map.locate({setView: true, maxZoom: 15});
         L.tileLayer('https://api.tiles.mapbox.com/v4/' + appConfig.mapID + '/{z}/{x}/{y}.png?access_token=' + appConfig.accessToken, {
             attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
             maxZoom: 18,
@@ -211,7 +212,7 @@ $(document).ready(function() {
             userRank = userInfo["rank"]
             userBlocktime = userInfo["blocktime"]
             unblocked = new Date();
-            unblocked.setTime(locale_date.getTime() + userBlocktime*60*1000)
+            unblocked.setTime(locale_date.getTime() + userBlocktime * 60 * 1000)
             console.log(locale_date)
             console.log(unblocked)
             if (unblocked > Date.now()) {
