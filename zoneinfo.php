@@ -19,21 +19,20 @@
 </head>
 <body>
 <?php include("header.php");?>
-<?php include("zoner.php");?>
+
 <main>
 <div class="map" id ="map">
 </div>
 <div class="info" id="info">
 <div class="info-header"><p class="zoneName"></p></div>
 <div class="info-body">
-    <div class="info-zone"><p class="zoneData"></p></div>
+<div class="info-zone"><p class="zoneData"></p></div>
     <div class="info-user"><p class="owner"></p></div>
     <div class="info-taken"><p class="taken"></p></div>
 </div>
 </div>
 <script type="text/javascript">
-var latitude = "<?php echo $zoneLat; ?>";
-var longitude = "<?php echo $zoneLong; ?>";
+
 </script>
 
 </main>
