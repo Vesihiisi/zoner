@@ -58,6 +58,7 @@ main {
     color: black;
     width: 300px;
     position: absolute;
+    top: 0;
     height: 200px;
     padding: 0;
     right: 0;
