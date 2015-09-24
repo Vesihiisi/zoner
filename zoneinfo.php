@@ -11,6 +11,8 @@
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.css" />
 <script src="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.js"></script>
 <script src="js/Leaflet.MakiMarkers.js"></script>
+<script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-label/v0.2.1/leaflet.label.js'></script>
+<link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-label/v0.2.1/leaflet.label.css' rel='stylesheet' />
 <script src="js/jquery-dateFormat.min.js"></script>
 <script src="js/script.js"></script>
 <title><?php echo $pageTitle?> | turf zoner</title>

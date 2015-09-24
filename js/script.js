@@ -145,6 +145,7 @@ $(document).ready(function() {
             icon: icon,
         });
         marker.setOpacity(opacity)
+        marker.bindLabel(zoneName)
         marker.on("click", markerClicker)
         return marker
     }
@@ -299,6 +300,7 @@ $(document).ready(function() {
                 icon: iconDefault,
             });
             marker.setOpacity(0.5)
+            marker.bindLabel(zoneName)
             marker.on('click', markerClicker)
             allZones.addLayer(marker)
             allZones.addTo(map)
