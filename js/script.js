@@ -172,7 +172,7 @@ $(document).ready(function() {
         owner = zoneData["currentOwner"]["name"]
         locale_date = parseDate(lastTaken)
         $(".zoneName").html(zoneName)
-        $(".ownerName").html("owner: " + owner)
+        $(".ownerName").html("Owner: " + owner)
         $(".zoneName").append(" (" + takeoverPoints.toString() + ", +" + pph.toString() + ")")
         $(".taken").append("Taken: " + $.format.date(locale_date, "dd/MM/yyyy HH:mm:ss"))
         $(".taken").append(" (" + $.format.prettyDate(locale_date) + ")")
@@ -192,10 +192,10 @@ $(document).ready(function() {
                 "name": owner,
             },
             dataType: "json",
-            success: function(data) {
-                getUsersAllZones(data)
-            }
-        });
+        }).done(function(data) {
+            getUsersAllZones(data)
+        })
+
     }
 
     function clearInfobox() {
@@ -257,7 +257,6 @@ $(document).ready(function() {
                         "name": this.options.zoneName,
                     },
                     success: function(data) {
-
                         getInfoAboutOwner(data)
                     }
                 })
@@ -314,11 +313,11 @@ $(document).ready(function() {
             type: "POST",
             data: data,
             dataType: "json",
-            url: "locator.php",
-            success: function(data) {
-                mapData(data)
-            }
-        });
+            url: "locator.php"
+        }).done(function(data) {
+            mapData(data)
+        })
+
     }
 
     function markSelected(marker) {
