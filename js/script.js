@@ -155,46 +155,26 @@ $(document).ready(function() {
         }
     }
 
-    function getInfoAboutOwner(data) {
-        function getUsersAllZones(data) {
-            userInfo = saveInfo(data)[0]
-            userRank = userInfo["rank"]
-            userBlocktime = userInfo["blocktime"]
-            unblocked = new Date();
-            unblocked.setTime(locale_date.getTime() + userBlocktime * 60 * 1000)
-            console.log(locale_date)
-            console.log(unblocked)
-            if (unblocked > Date.now()) {
-                $(".taken").append("BLOCKED!!!!!!!!!")
-            }
-            usersZones = userInfo.zones
-            owns = usersZones.length
-            $(".owner").append(" (lvl " + userRank + ", " + owns + "z )")
-            for (i = 0; i < usersZones.length; i++) {
-                $.ajax({
-                    type: "POST",
-                    url: "getZoneInfo.php",
-                    dataType: "json",
-                    data: {
-                        "id": usersZones[i],
-                    },
-                    success: function(data) {
-                        colorMarker(data)
-                    }
-                })
-            }
-        }
-        data = saveInfo(data)[0];
-        takeoverPoints = data["takeoverPoints"]
-        pph = data["pointsPerHour"]
-        owner = data["currentOwner"]["name"]
-        lastTaken = data["dateLastTaken"]
-        console.log(lastTaken)
+    function printZoneInfo(zoneData) {
+        clearInfobox()
+        zoneData = saveInfo(zoneData)
+        zoneName = zoneData["name"]
+        takeoverPoints = zoneData["takeoverPoints"];
+        pph = zoneData["pointsPerHour"]
+        lastTaken = zoneData["dateLastTaken"]
+        owner = zoneData["currentOwner"]["name"]
         locale_date = parseDate(lastTaken)
+        $(".zoneName").html(zoneName)
         $(".owner").html("owner: " + owner)
         $(".zoneName").append(" (" + takeoverPoints.toString() + ", +" + pph.toString() + ")")
         $(".taken").append("taken: " + $.format.date(locale_date, "dd/MM/yyyy HH:mm:ss"))
         $(".taken").append(" (" + $.format.prettyDate(locale_date) + ")")
+    }
+
+    function getInfoAboutOwner(data) {
+        data = saveInfo(data)[0];
+        printZoneInfo(data)
+        owner = data["currentOwner"]["name"]
         zonesOwnedByThisPerson = []
         console.log(owner)
         $.ajax({
@@ -230,9 +210,22 @@ $(document).ready(function() {
             select(this)
             if (coloredMarkers.hasLayer(this)) {
                 console.log("COLORED")
+                $.ajax({
+                    type: "POST",
+                    url: "getZoneInfo.php",
+                    dataType: "json",
+                    data: {
+                        "name": this.options.zoneName,
+                    },
+                    success: function(data) {
+                        data = saveInfo(data[0])
+                        printZoneInfo(data)
+                    }
+                })
+
             } else {
                 clearInfobox()
-                $(".zoneName").html(this.options.zoneName)
+                
                 if (coloredMarkers.getLayers().length > 0) {
                     resetAllColored()
                 }
@@ -244,6 +237,7 @@ $(document).ready(function() {
                         "name": this.options.zoneName,
                     },
                     success: function(data) {
+
                         getInfoAboutOwner(data)
                     }
                 })
