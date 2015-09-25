@@ -2,90 +2,49 @@ $(document).ready(function() {
 
     function minutesToIcon(minutes) {
         if (minutes < 2) {
-            return icon9;
+            return 9;
         } else if (minutes < 5) {
-            return icon8;
+            return 8;
         } else if (minutes < 15) {
-            return icon7;
+            return 7;
         } else if (minutes < 45) {
-            return icon6;
+            return 6;
         } else if (minutes < 120) {
-            return icon5;
+            return 5;
         } else if (minutes < 60 * 5) {
-            return icon4;
+            return 4;
         } else if (minutes < 60 * 12) {
-            return icon3;
+            return 3;
         } else if (minutes < 60 * 24) {
-            return icon2;
+            return 2;
         } else {
-            return icon1;
+            return 1;
         }
     }
 
-    var color1 = "#ffffcc";
-    var color2 = "#ffeda0";
-    var color3 = "#fed976";
-    var color4 = "#feb24c";
-    var color5 = "#fd8d3c";
-    var color6 = "#fc4e2a";
-    var color7 = "#e31a1c";
-    var color8 = "#bd0026";
-    var color9 = "#800026";
+    var colors = ["#7E7E7E",
+        "#ffffcc",
+        "#ffeda0",
+        "#fed976",
+        "#feb24c",
+        "#fd8d3c",
+        "#fc4e2a",
+        "#e31a1c",
+        "#bd0026",
+        "#800026"
+    ]
 
-    var iconDefault = L.MakiMarkers.icon({
-        color: "#7E7E7E",
-        size: "s"
-    });
+    var icons = []
 
-    var icon9 = L.MakiMarkers.icon({
-        color: color9,
-        size: "m"
-    });
+    for (i = 0; i < colors.length; i++) {
+        icons.push(
+            L.MakiMarkers.icon({
+                color: colors[i],
+                size: "s"
+            })
+        )
+    }
 
-    var icon8 = L.MakiMarkers.icon({
-        color: color8,
-        size: "m"
-    });
-
-    var icon7 = L.MakiMarkers.icon({
-        color: color7,
-        size: "m"
-    });
-
-    var icon6 = L.MakiMarkers.icon({
-        color: color6,
-        size: "m"
-    });
-
-    var icon5 = L.MakiMarkers.icon({
-        color: color5,
-        size: "m"
-    });
-
-    var icon4 = L.MakiMarkers.icon({
-        color: color4,
-        size: "m"
-    });
-
-    var icon3 = L.MakiMarkers.icon({
-        color: color3,
-        size: "m"
-    });
-
-    var icon2 = L.MakiMarkers.icon({
-        color: color2,
-        size: "m"
-    });
-
-    var icon1 = L.MakiMarkers.icon({
-        color: color1,
-        size: "m"
-    });
-
-    var icon = L.MakiMarkers.icon({
-        color: "#8CA8CB",
-        size: "m"
-    });
 
     var allZones = new L.LayerGroup();
     var coloredMarkers = new L.LayerGroup()
@@ -98,11 +57,6 @@ $(document).ready(function() {
             riseOnHover: true
         }
     })
-
-    var iconDefault = L.MakiMarkers.icon({
-        color: "#7E7E7E",
-        size: "s"
-    });
 
     function createMap(where) {
         var map = L.map(where).setView([57.708, 11.975], 13);
@@ -135,21 +89,18 @@ $(document).ready(function() {
         return Math.ceil((rightNow - locale_date) / 60000)
     }
 
-    function restoreMarker(marker, icon) {
-        if (icon == iconDefault) {
-            opacity = 0.5
-        } else {
-            opacity = 1
-        }
+    function restoreMarker(marker, iconNo) {
         coords = marker.getLatLng()
         zoneName = marker.options.zoneName;
         marker = new myMarker(coords, {
             zoneName: zoneName,
             title: zoneName,
             active: false,
-            icon: icon,
+            icon: icons[iconNo],
         });
-        marker.setOpacity(opacity)
+        if (iconNo == 0) {
+            marker.setOpacity(0.5)
+        }
         marker.bindLabel(zoneName)
         marker.on("click", markerClicker)
         return marker
@@ -178,7 +129,7 @@ $(document).ready(function() {
 
     function resetAllColored() {
         coloredMarkers.eachLayer(function(layer) {
-            marker = restoreMarker(layer, iconDefault)
+            marker = restoreMarker(layer, 0)
             coloredMarkers.removeLayer(marker)
             coloredMarkers.removeLayer(layer)
             allZones.addLayer(marker)
@@ -302,10 +253,10 @@ $(document).ready(function() {
             var marker = new myMarker([latitude, longitude], {
                 zoneName: zoneName,
                 title: zoneName,
-                icon: iconDefault,
+                icon: icons[0],
             });
-            marker.setOpacity(0.5)
             marker.bindLabel(zoneName)
+            marker.setOpacity(0.5)
             marker.on('click', markerClicker)
             allZones.addLayer(marker)
             allZones.addTo(map)
