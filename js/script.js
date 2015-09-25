@@ -157,7 +157,7 @@ $(document).ready(function() {
     }
 
     function printOwnerInfo(ownerData) {
-        $(".ownerName").html("Owner: " + ownerData["name"])
+        $(".ownerName").html(ownerData["name"])
         $(".ownerRank").html(ownerData["rank"])
         $(".numberOfZones").html(ownerData["zones"].length)
     }
@@ -172,7 +172,7 @@ $(document).ready(function() {
         owner = zoneData["currentOwner"]["name"]
         locale_date = parseDate(lastTaken)
         $(".zoneName").html(zoneName)
-        $(".ownerName").html("Owner: " + owner)
+        $(".ownerName").html(owner)
         $(".zoneName").append(" (" + takeoverPoints.toString() + ", +" + pph.toString() + ")")
         $(".taken").append("Taken: " + $.format.date(locale_date, "dd/MM/yyyy HH:mm:ss"))
         $(".taken").append(" (" + $.format.prettyDate(locale_date) + ")")
