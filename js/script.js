@@ -318,6 +318,10 @@ $(document).ready(function() {
         circles.addTo(map)
     }
 
+    function select(marker) {
+        markSelected(marker)
+    }
+
     function panToZone(zoneName) {
         var data = {
             "name": zoneName,
@@ -331,12 +335,15 @@ $(document).ready(function() {
                 var latLong = getZoneCoords(data)
                 map.setView([latLong[0], latLong[1]]);
                 console.log(zoneName)
-                allZones.eachLayer(function(layer) {
-                    if (layer.options.zoneName == zoneName) {
-                        console.log("FOUND")
-                        markSelected(layer)
-                    }
-                })
+                setTimeout(function() {
+                    allZones.eachLayer(function(layer) {
+                        if (layer.options.zoneName == zoneName) {
+                            console.log("FOUND")
+                            select(layer)
+                        }
+                    })
+                }, 100); // horrible, terrible hack :< :S :D
+
             }
         });
     }
