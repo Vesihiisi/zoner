@@ -127,6 +127,8 @@ $(document).ready(function() {
         coloredMarkers.eachLayer(function(layer) {
             layer.setIcon(icons[0])
             layer.setOpacity(0.5)
+            coloredMarkers.removeLayer(layer)
+            allZones.addLayer(layer)
         })
     }
 
@@ -228,21 +230,22 @@ $(document).ready(function() {
             if (coloredMarkers.hasLayer(this)) {
                 console.log("COLORED")
             } else {
-                            $(".zoneName").html(this.options.zoneName)
-            if (coloredMarkers.getLayers().length > 0) {
-                resetAllColored()
-            }
-            $.ajax({
-                type: "POST",
-                url: "getZoneInfo.php",
-                dataType: "json",
-                data: {
-                    "name": this.options.zoneName,
-                },
-                success: function(data) {
-                    getInfoAboutOwner(data)
+                clearInfobox()
+                $(".zoneName").html(this.options.zoneName)
+                if (coloredMarkers.getLayers().length > 0) {
+                    resetAllColored()
                 }
-            })
+                $.ajax({
+                    type: "POST",
+                    url: "getZoneInfo.php",
+                    dataType: "json",
+                    data: {
+                        "name": this.options.zoneName,
+                    },
+                    success: function(data) {
+                        getInfoAboutOwner(data)
+                    }
+                })
             }
 
         }
