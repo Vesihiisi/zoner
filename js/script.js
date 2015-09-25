@@ -1,5 +1,7 @@
 $(document).ready(function() {
 
+    var lastClickedOn;
+
     function minutesToIcon(minutes) {
         if (minutes < 2) {
             return 9;
@@ -212,26 +214,32 @@ $(document).ready(function() {
         } else {
             $(".info").fadeIn("fast")
         }
-        console.log(this.options.zoneName)
-        console.log(this.options.active)
-        $(".info-header").children().html("")
-        $(".info-user").children().html("")
-        $(".info-taken").children().html("")
-        $(".zoneName").html(this.options.zoneName)
-        if (coloredMarkers.getLayers().length > 0) {
-            resetAllColored()
-        }
-        $.ajax({
-            type: "POST",
-            url: "getZoneInfo.php",
-            dataType: "json",
-            data: {
-                "name": this.options.zoneName,
-            },
-            success: function(data) {
-                getInfoAboutOwner(data)
+        console.log(lastClickedOn)
+        if (lastClickedOn == this) {
+            console.log("FAIL")
+        } else {
+            lastClickedOn = this
+            $(".info-header").children().html("")
+            $(".info-user").children().html("")
+            $(".info-taken").children().html("")
+            $(".zoneName").html(this.options.zoneName)
+            if (coloredMarkers.getLayers().length > 0) {
+                resetAllColored()
             }
-        })
+            $.ajax({
+                type: "POST",
+                url: "getZoneInfo.php",
+                dataType: "json",
+                data: {
+                    "name": this.options.zoneName,
+                },
+                success: function(data) {
+                    getInfoAboutOwner(data)
+                }
+            })
+        }
+
+
     }
 
     function mapData(data) {
