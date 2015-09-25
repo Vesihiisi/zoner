@@ -50,6 +50,7 @@ $(document).ready(function() {
 
     var allZones = new L.LayerGroup();
     var coloredMarkers = new L.LayerGroup()
+    var circles = new L.LayerGroup()
 
 
     var myMarker = L.Marker.extend({
@@ -253,6 +254,8 @@ $(document).ready(function() {
 
     }
 
+
+
     function mapData(data) {
         data = saveInfo(data);
         for (var i = 0; i < data.length; i++) {
@@ -316,6 +319,19 @@ $(document).ready(function() {
             success: function(data) {
                 var latLong = getZoneCoords(data)
                 map.setView([latLong[0], latLong[1]]);
+                var circle = new L.circle([latLong[0], latLong[1]], 150, {
+                    fill: false,
+                    color: "red",
+                    fillOpacity: 0.5
+                })
+                circles.addLayer(circle)
+                circles.addTo(map)
+                console.log(zoneName)
+                allZones.eachLayer(function(layer) {
+                    if (layer.options.zoneName == zoneName) {
+                        console.log(layer)
+                    }
+                })
             }
         });
     }
