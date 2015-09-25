@@ -227,7 +227,7 @@ $(document).ready(function() {
             console.log("FAIL")
         } else {
             lastClickedOn = this
-            markSelected(this)
+            select(this)
             if (coloredMarkers.hasLayer(this)) {
                 console.log("COLORED")
             } else {
