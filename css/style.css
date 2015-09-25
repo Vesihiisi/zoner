@@ -118,6 +118,23 @@ h1 {
     font-size: 30px;
 }
 
+.numberOfZones,
+.ownerRank {
+    padding: 2px 8px;
+    border: 1px solid #69d2e7;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 0 5px;
+}
+
+.numberOfZones {
+    background-color: #a7dbd8;
+}
+
+.ownerRank {
+    background-color: #E0E4CC;
+}
+
 input[type=button] {
     height: 32px;
     line-height: 32px;

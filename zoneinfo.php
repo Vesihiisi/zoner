@@ -27,7 +27,7 @@
 <div class="info-header"><p class="zoneName"></p></div>
 <div class="info-body">
 <div class="info-zone"><p class="zoneData"></p></div>
-    <div class="info-user"><p class="owner"></p></div>
+    <div class="info-user"><span class="ownerName"></span><span class="ownerRank"></span><span class="numberOfZones"></span></div>
     <div class="info-taken"><p class="taken"></p></div>
 </div>
 </div>

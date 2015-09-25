@@ -139,7 +139,8 @@ $(document).ready(function() {
         userBlocktime = userInfo["blocktime"]
         usersZones = userInfo.zones
         owns = usersZones.length
-        $(".owner").append(" (lvl " + userRank + ", " + owns + "z )")
+        $(".ownerRank").append(userRank)
+        $(".numberOfZones").append(owns)
         for (i = 0; i < usersZones.length; i++) {
             $.ajax({
                 type: "POST",
@@ -165,7 +166,7 @@ $(document).ready(function() {
         owner = zoneData["currentOwner"]["name"]
         locale_date = parseDate(lastTaken)
         $(".zoneName").html(zoneName)
-        $(".owner").html("owner: " + owner)
+        $(".ownerName").html("owner: " + owner)
         $(".zoneName").append(" (" + takeoverPoints.toString() + ", +" + pph.toString() + ")")
         $(".taken").append("taken: " + $.format.date(locale_date, "dd/MM/yyyy HH:mm:ss"))
         $(".taken").append(" (" + $.format.prettyDate(locale_date) + ")")
