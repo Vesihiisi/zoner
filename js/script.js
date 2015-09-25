@@ -156,6 +156,12 @@ $(document).ready(function() {
         }
     }
 
+    function printOwnerInfo(ownerData) {
+        $(".ownerName").html("Owner: " + ownerData["name"])
+        $(".ownerRank").html(ownerData["rank"])
+        $(".numberOfZones").html(ownerData["zones"].length)
+    }
+
     function printZoneInfo(zoneData) {
         clearInfobox()
         zoneData = saveInfo(zoneData)
@@ -168,7 +174,7 @@ $(document).ready(function() {
         $(".zoneName").html(zoneName)
         $(".ownerName").html("owner: " + owner)
         $(".zoneName").append(" (" + takeoverPoints.toString() + ", +" + pph.toString() + ")")
-        $(".taken").append("taken: " + $.format.date(locale_date, "dd/MM/yyyy HH:mm:ss"))
+        $(".taken").append("Taken: " + $.format.date(locale_date, "dd/MM/yyyy HH:mm:ss"))
         $(".taken").append(" (" + $.format.prettyDate(locale_date) + ")")
     }
 
@@ -220,13 +226,26 @@ $(document).ready(function() {
                     },
                     success: function(data) {
                         data = saveInfo(data[0])
+                        console.log(data)
                         printZoneInfo(data)
+                        $.ajax({
+                            type: "POST",
+                            dataType: "json",
+                            url: "getUserInfo.php",
+                            data: {
+                                "name": data["currentOwner"]["name"],
+                            },
+                            dataType: "json",
+                            success: function(x) {
+                                x = saveInfo(x[0])
+                                printOwnerInfo(x)
+                            }
+                        });
                     }
                 })
-
             } else {
                 clearInfobox()
-                
+
                 if (coloredMarkers.getLayers().length > 0) {
                     resetAllColored()
                 }
