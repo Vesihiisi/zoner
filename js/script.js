@@ -208,6 +208,12 @@ $(document).ready(function() {
         });
     }
 
+    function clearInfobox() {
+        $(".info-header").children().html("")
+        $(".info-user").children().html("")
+        $(".info-taken").children().html("")
+    }
+
     function markerClicker() {
         if ($(".info").is(":visible")) {
             console.log()
@@ -219,10 +225,10 @@ $(document).ready(function() {
             console.log("FAIL")
         } else {
             lastClickedOn = this
-            $(".info-header").children().html("")
-            $(".info-user").children().html("")
-            $(".info-taken").children().html("")
-            $(".zoneName").html(this.options.zoneName)
+            if (coloredMarkers.hasLayer(this)) {
+                console.log("COLORED")
+            } else {
+                            $(".zoneName").html(this.options.zoneName)
             if (coloredMarkers.getLayers().length > 0) {
                 resetAllColored()
             }
@@ -237,6 +243,8 @@ $(document).ready(function() {
                     getInfoAboutOwner(data)
                 }
             })
+            }
+
         }
 
 
