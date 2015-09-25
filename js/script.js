@@ -223,11 +223,11 @@ $(document).ready(function() {
         } else {
             $(".info").fadeIn("fast")
         }
-        console.log(lastClickedOn)
         if (lastClickedOn == this) {
             console.log("FAIL")
         } else {
             lastClickedOn = this
+            markSelected(this)
             if (coloredMarkers.hasLayer(this)) {
                 console.log("COLORED")
             } else {
@@ -307,6 +307,17 @@ $(document).ready(function() {
         });
     }
 
+    function markSelected(marker) {
+        circles.clearLayers()
+        var circle = new L.circle(marker.getLatLng(), 150, {
+            fill: false,
+            color: "red",
+            fillOpacity: 0.5
+        })
+        circles.addLayer(circle)
+        circles.addTo(map)
+    }
+
     function panToZone(zoneName) {
         var data = {
             "name": zoneName,
@@ -319,17 +330,11 @@ $(document).ready(function() {
             success: function(data) {
                 var latLong = getZoneCoords(data)
                 map.setView([latLong[0], latLong[1]]);
-                var circle = new L.circle([latLong[0], latLong[1]], 150, {
-                    fill: false,
-                    color: "red",
-                    fillOpacity: 0.5
-                })
-                circles.addLayer(circle)
-                circles.addTo(map)
                 console.log(zoneName)
                 allZones.eachLayer(function(layer) {
                     if (layer.options.zoneName == zoneName) {
-                        console.log(layer)
+                        console.log("FOUND")
+                        markSelected(layer)
                     }
                 })
             }
