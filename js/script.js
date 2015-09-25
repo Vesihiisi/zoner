@@ -106,12 +106,6 @@ $(document).ready(function() {
         return marker
     }
 
-    function resetAll(array) {
-        for (i = 0; i < array.length; i++) {
-            map.removeLayer(array[i])
-        }
-    }
-
     function colorMarker(data) {
         zoneInfo = saveInfo(data);
         zoneName = zoneInfo[0].name
@@ -119,9 +113,9 @@ $(document).ready(function() {
         timeDelta = howLongAgo(dateLastTaken)
         allZones.eachLayer(function(layer) {
             if (layer.options.zoneName == zoneName) {
-                allZones.removeLayer(layer)
-                marker = restoreMarker(layer, minutesToIcon(timeDelta))
-                coloredMarkers.addLayer(marker)
+                layer.setIcon(icons[minutesToIcon(timeDelta)])
+                layer.setOpacity(1)
+                coloredMarkers.addLayer(layer)
                 console.log(coloredMarkers.getLayers().length)
             }
         })
@@ -129,13 +123,9 @@ $(document).ready(function() {
 
     function resetAllColored() {
         coloredMarkers.eachLayer(function(layer) {
-            marker = restoreMarker(layer, 0)
-            coloredMarkers.removeLayer(marker)
-            coloredMarkers.removeLayer(layer)
-            allZones.addLayer(marker)
-
+            layer.setIcon(icons[0])
+            layer.setOpacity(0.5)
         })
-        coloredMarkers.clearLayers()
     }
 
     function getUsersAllZones(data) {
@@ -253,8 +243,8 @@ $(document).ready(function() {
             var marker = new myMarker([latitude, longitude], {
                 zoneName: zoneName,
                 title: zoneName,
-                icon: icons[0],
             });
+            marker.setIcon(icons[0])
             marker.bindLabel(zoneName)
             marker.setOpacity(0.5)
             marker.on('click', markerClicker)
