@@ -65,7 +65,7 @@ $(document).ready(function() {
         var map = L.map(where).setView([57.708, 11.975], 13);
         map.locate({
             setView: true,
-            maxZoom: 15
+            maxZoom: 15,
         });
         L.tileLayer('https://api.tiles.mapbox.com/v4/' + appConfig.mapID + '/{z}/{x}/{y}.png?access_token=' + appConfig.accessToken, {
             attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
@@ -160,6 +160,7 @@ $(document).ready(function() {
         $(".ownerName").html(ownerData["name"])
         $(".ownerRank").html(ownerData["rank"])
         $(".numberOfZones").html(ownerData["zones"].length)
+        $(".info-user").append("<div>hello world</div>")
     }
 
     function printZoneInfo(zoneData) {
@@ -173,6 +174,7 @@ $(document).ready(function() {
         locale_date = parseDate(lastTaken)
         $(".zoneName").html(zoneName)
         $(".ownerName").html(owner)
+        $(".info-user").append("<div class='rank-bar'></div>")
         $(".zoneName").append(" (" + takeoverPoints.toString() + ", +" + pph.toString() + ")")
         $(".taken").append("Taken: " + $.format.date(locale_date, "dd/MM/yyyy HH:mm:ss"))
         $(".taken").append(" (" + $.format.prettyDate(locale_date) + ")")
@@ -355,7 +357,7 @@ $(document).ready(function() {
                             select(layer)
                         }
                     })
-                }, 100); // horrible, terrible hack :< :S :D
+                }, 200); // horrible, terrible hack :< :S :D
 
             }
         });

@@ -84,9 +84,11 @@ main {
 
 .info-user {}
 
-.breadcrumb {
-    font-size: 75%;
-    color: #5A5A5A;
+.rank-bar {
+    background-color: #ddd;
+    height: 10px;
+    width: 100%;
+    margin: 10px 0;
 }
 
 .zoneName {
