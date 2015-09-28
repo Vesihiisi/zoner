@@ -1,6 +1,32 @@
 $(document).ready(function() {
 
-    var lastClickedOn;
+    var colors = ["#69d2e7",
+        "#ffffcc",
+        "#ffeda0",
+        "#fed976",
+        "#feb24c",
+        "#fd8d3c",
+        "#fc4e2a",
+        "#e31a1c",
+        "#bd0026",
+        "#800026"
+    ]
+
+    var icons = createColoredMarkers();
+    var allMarkers = new L.LayerGroup();
+    var coloredMarkers = new L.LayerGroup()
+    var circles = new L.LayerGroup()
+    var myMarker = L.Marker.extend({
+        options: {
+            zoneName: null,
+            active: false,
+            riseOnHover: true
+        }
+    })
+
+    function parseDate(str_date) {
+        return new Date(Date.parse(str_date));
+    }
 
     function minutesToIcon(minutes) {
         if (minutes < 2) {
@@ -24,42 +50,18 @@ $(document).ready(function() {
         }
     }
 
-    var colors = ["#7E7E7E",
-        "#ffffcc",
-        "#ffeda0",
-        "#fed976",
-        "#feb24c",
-        "#fd8d3c",
-        "#fc4e2a",
-        "#e31a1c",
-        "#bd0026",
-        "#800026"
-    ]
-
-    var icons = []
-
-    for (i = 0; i < colors.length; i++) {
-        icons.push(
-            L.MakiMarkers.icon({
-                color: colors[i],
-                size: "s"
-            })
-        )
-    }
-
-
-    var allZones = new L.LayerGroup();
-    var coloredMarkers = new L.LayerGroup()
-    var circles = new L.LayerGroup()
-
-
-    var myMarker = L.Marker.extend({
-        options: {
-            zoneName: null,
-            active: false,
-            riseOnHover: true
+    function createColoredMarkers() {
+        var icons = [];
+        for (i = 0; i < colors.length; i++) {
+            icons.push(
+                new L.MakiMarkers.icon({
+                    color: colors[i],
+                    size: "s"
+                })
+            );
         }
-    })
+        return icons;
+    }
 
     function createMap(where) {
         var map = L.map(where).setView([57.708, 11.975], 13);
@@ -73,237 +75,61 @@ $(document).ready(function() {
             id: appConfig.mapID,
             accessToken: appConfig.accessToken
         }).addTo(map);
+        allMarkers.addTo(map)
+        circles.addTo(map)
         return map
     }
 
-    function saveInfo(data) {
-        return data;
-    }
-
-    function parseDate(str_date) {
-        return new Date(Date.parse(str_date));
-    }
-
-
-    function howLongAgo(timestamp) {
-
-        rightNow = Date.now()
-        locale_date = parseDate(timestamp);
-        return Math.ceil((rightNow - locale_date) / 60000)
-    }
-
-    function restoreMarker(marker, iconNo) {
-        coords = marker.getLatLng()
-        zoneName = marker.options.zoneName;
-        marker = new myMarker(coords, {
+    function createMarker(coords) {
+        var marker = new myMarker(coords, {
             zoneName: zoneName,
             title: zoneName,
-            active: false,
-            icon: icons[iconNo],
         });
-        if (iconNo == 0) {
-            marker.setOpacity(0.5)
-        }
+        marker.setIcon(icons[0])
         marker.bindLabel(zoneName)
-        marker.on("click", markerClicker)
+        marker.setOpacity(0.5)
+        allMarkers.addLayer(marker)
         return marker
     }
 
-    function colorMarker(data) {
-        zoneInfo = saveInfo(data);
-        zoneName = zoneInfo[0].name
-        dateLastTaken = zoneInfo[0].dateLastTaken
-        timeDelta = howLongAgo(dateLastTaken)
-        allZones.eachLayer(function(layer) {
-            if (layer.options.zoneName == zoneName) {
-                layer.setIcon(icons[minutesToIcon(timeDelta)])
-                layer.setOpacity(1)
-                coloredMarkers.addLayer(layer)
-                console.log(coloredMarkers.getLayers().length)
-            }
+    function selectMarker(marker) {
+        circles.clearLayers()
+        var circle = new L.circle(marker.getLatLng(), 150, {
+            fill: false,
+            color: "red",
+            fillOpacity: 0.5
         })
-    }
-
-    function resetAllColored() {
-        coloredMarkers.eachLayer(function(layer) {
-            layer.setIcon(icons[0])
-            layer.setOpacity(0.5)
-            coloredMarkers.removeLayer(layer)
-            allZones.addLayer(layer)
-        })
-    }
-
-    function getUsersAllZones(data) {
-        userInfo = saveInfo(data)[0]
-        userRank = userInfo["rank"]
-        userBlocktime = userInfo["blocktime"]
-        usersZones = userInfo.zones
-        owns = usersZones.length
-        $(".ownerRank").append(userRank)
-        $(".numberOfZones").append(owns)
-        for (i = 0; i < usersZones.length; i++) {
-            $.ajax({
-                type: "POST",
-                url: "getZoneInfo.php",
-                dataType: "json",
-                data: {
-                    "id": usersZones[i],
-                },
-                success: function(data) {
-                    colorMarker(data)
-                }
-            })
-        }
-    }
-
-    function printOwnerInfo(ownerData) {
-        $(".ownerName").html(ownerData["name"])
-        $(".ownerRank").html(ownerData["rank"])
-        $(".numberOfZones").html(ownerData["zones"].length)
-        $(".info-user").append("<div>hello world</div>")
-    }
-
-    function printZoneInfo(zoneData) {
-        clearInfobox()
-        zoneData = saveInfo(zoneData)
-        zoneName = zoneData["name"]
-        takeoverPoints = zoneData["takeoverPoints"];
-        pph = zoneData["pointsPerHour"]
-        lastTaken = zoneData["dateLastTaken"]
-        owner = zoneData["currentOwner"]["name"]
-        locale_date = parseDate(lastTaken)
-        $(".zoneName").html(zoneName)
-        $(".ownerName").html(owner)
-        $(".info-user").append("<div class='rank-bar'></div>")
-        $(".zoneName").append(" (" + takeoverPoints.toString() + ", +" + pph.toString() + ")")
-        $(".taken").append("Taken: " + $.format.date(locale_date, "dd/MM/yyyy HH:mm:ss"))
-        $(".taken").append(" (" + $.format.prettyDate(locale_date) + ")")
-    }
-
-    function getInfoAboutOwner(data) {
-        data = saveInfo(data)[0];
-        printZoneInfo(data)
-        owner = data["currentOwner"]["name"]
-        zonesOwnedByThisPerson = []
-        console.log(owner)
-        $.ajax({
-            type: "POST",
-            dataType: "json",
-            url: "getUserInfo.php",
-            data: {
-                "name": owner,
-            },
-            dataType: "json",
-        }).done(function(data) {
-            getUsersAllZones(data)
-        })
+        console.log(circle)
+        console.log(circles)
+        circles.addLayer(circle)
 
     }
 
-    function clearInfobox() {
-        $(".info-header").children().html("")
-        $(".info-user").children().html("")
-        $(".info-taken").children().html("")
-    }
-
-    function markerClicker() {
-        if ($(".info").is(":visible")) {
-            console.log()
-        } else {
-            $(".info").fadeIn("fast")
-        }
-        if (lastClickedOn == this) {
-            console.log("FAIL")
-        } else {
-            lastClickedOn = this
-            select(this)
-            if (coloredMarkers.hasLayer(this)) {
-                console.log("COLORED")
-                $.ajax({
-                    type: "POST",
-                    url: "getZoneInfo.php",
-                    dataType: "json",
-                    data: {
-                        "name": this.options.zoneName,
-                    },
-                    success: function(data) {
-                        data = saveInfo(data[0])
-                        console.log(data)
-                        printZoneInfo(data)
-                        $.ajax({
-                            type: "POST",
-                            dataType: "json",
-                            url: "getUserInfo.php",
-                            data: {
-                                "name": data["currentOwner"]["name"],
-                            },
-                            dataType: "json",
-                            success: function(x) {
-                                x = saveInfo(x[0])
-                                printOwnerInfo(x)
-                            }
-                        });
-                    }
-                })
-            } else {
-                clearInfobox()
-
-                if (coloredMarkers.getLayers().length > 0) {
-                    resetAllColored()
-                }
-                $.ajax({
-                    type: "POST",
-                    url: "getZoneInfo.php",
-                    dataType: "json",
-                    data: {
-                        "name": this.options.zoneName,
-                    },
-                    success: function(data) {
-                        getInfoAboutOwner(data)
-                    }
-                })
-            }
-
-        }
-
-
-    }
-
-
-
-    function mapData(data) {
-        data = saveInfo(data);
-        for (var i = 0; i < data.length; i++) {
-            zoneName = data[i]["name"];
-            latitude = data[i]["latitude"];
-            longitude = data[i]["longitude"];
-            var marker = new myMarker([latitude, longitude], {
-                zoneName: zoneName,
-                title: zoneName,
-            });
-            marker.setIcon(icons[0])
-            marker.bindLabel(zoneName)
-            marker.setOpacity(0.5)
-            marker.on('click', markerClicker)
-            allZones.addLayer(marker)
-            allZones.addTo(map)
-            coloredMarkers.addTo(map)
+    function mapData(zoneData) {
+        for (var i = 0; i < zoneData.length; i++) {
+            zoneName = zoneData[i]["name"];
+            latitude = zoneData[i]["latitude"];
+            longitude = zoneData[i]["longitude"];
+            var marker = createMarker([latitude, longitude])
+            addHandlerToMarker(marker)
         }
     }
 
     function populateMap(map) {
+        function ajax(data) {
+            return $.ajax({
+                type: "POST",
+                data: data,
+                dataType: "json",
+                url: "locator.php"
+            })
+        }
         var north = map.getBounds().getNorth();
         var east = map.getBounds().getEast();
         var south = map.getBounds().getSouth();
         var west = map.getBounds().getWest();
         var allZoneNames = [];
-        allZones.eachLayer(function(layer) {
-            allZoneNames.push(layer.options.zoneName)
-        })
-        coloredMarkers.eachLayer(function(layer) {
-            allZoneNames.push(layer.options.zoneName)
-        })
-        var data = {
+        var geoData = {
             "name": "<?php echo $zoneName; ?>",
             "north": north,
             "east": east,
@@ -311,95 +137,72 @@ $(document).ready(function() {
             "west": west,
             "exclude": JSON.stringify(allZoneNames),
         };
-        $.ajax({
-            type: "POST",
-            data: data,
-            dataType: "json",
-            url: "locator.php"
-        }).done(function(data) {
-            mapData(data)
+        allMarkers.eachLayer(function(layer) {
+            allZoneNames.push(layer.options.zoneName)
         })
-
-    }
-
-    function markSelected(marker) {
-        circles.clearLayers()
-        var circle = new L.circle(marker.getLatLng(), 150, {
-            fill: false,
-            color: "red",
-            fillOpacity: 0.5
+        coloredMarkers.eachLayer(function(layer) {
+            allZoneNames.push(layer.options.zoneName)
         })
-        circles.addLayer(circle)
-        circles.addTo(map)
+        ajax(geoData).done(function(result) {
+            mapData(result)
+        })
     }
 
-    function select(marker) {
-        markSelected(marker)
-    }
 
-    function panToZone(zoneName) {
-        var data = {
-            "name": zoneName,
+    function printInfoZone(nameOrId) {
+        function fillInfobox(zoneData) {
+            console.log(zoneData[0])
+            var zoneName = zoneData[0]["name"];
+            var currentOwner = zoneData[0]["currentOwner"]["name"];
+            var takeoverPoints = zoneData[0]["takeoverPoints"];
+            var pph = zoneData[0]["pointsPerHour"]
+            var lastTaken = zoneData[0]["dateLastTaken"]
+            locale_date = parseDate(lastTaken)
+            console.log(currentOwner)
+            $(".zoneName").html(zoneName);
+            $(".zoneName").append(" (" + takeoverPoints.toString() + ", +" + pph.toString() + ")")
+            $(".ownerName").html(currentOwner);
+            $(".taken").html("Taken: " + $.format.date(locale_date, "dd/MM/yyyy HH:mm:ss"))
+            $(".taken").append(" (" + $.format.prettyDate(locale_date) + ")")
         }
-        $.ajax({
-            type: "POST",
-            data: data,
-            dataType: "json",
-            url: "getZoneInfo.php",
-            success: function(data) {
-                var latLong = getZoneCoords(data)
-                map.setView([latLong[0], latLong[1]]);
-                console.log(zoneName)
-                setTimeout(function() {
-                    allZones.eachLayer(function(layer) {
-                        if (layer.options.zoneName == zoneName) {
-                            console.log("FOUND")
-                            select(layer)
-                        }
-                    })
-                }, 200); // horrible, terrible hack :< :S :D
 
+        function ajax(data) {
+            return $.ajax({
+                type: "POST",
+                data: data,
+                dataType: "json",
+                url: "getZoneInfo.php"
+            })
+        }
+        if (typeof(nameOrId) === 'number') {
+            var data = {
+                id: nameOrId,
             }
-        });
+        } else if (typeof(nameOrId) === 'string') {
+            var data = {
+                name: nameOrId,
+            }
+        }
+        ajax(data).done(function(result) {
+            fillInfobox(result)
+        })
     }
 
-    function getZoneCoords(data) {
-        var latLong = []
-        latLong.push(data[0].latitude)
-        latLong.push(data[0].longitude)
-        console.log(latLong)
-        return latLong
+    function markerClicker() {
+        var zoneName = this.options.zoneName;
+        selectMarker(this)
+        printInfoZone(zoneName)
     }
 
+    function addHandlerToMarker(marker) {
+        marker.on("click", markerClicker)
+    }
 
-    var map = createMap('map');
-    populateMap(map)
-    $(".info").hide();
-
-    map.on('moveend', function() {
-        console.log("re-populating map");
+    function main() {
+        var map = createMap('map');
         populateMap(map);
-    })
+    }
 
-    $("#z").autocomplete({
-        source: "autocomplete.php",
-        minLength: 2,
-        select: function(event, ui) {
-            $(this).val(ui.item.value);
-            if (event.keyCode == 13) {
-                $('#z').submit()
-            }
-        }
-    });
-
-    $("#searchForm").on('submit', function(e) {
-        e.preventDefault()
-        panToZone($("#z").val())
-    })
-
-    $("#search").click(function() {
-        console.log("clicked")
-        panToZone($("#z").val())
-    })
+    main()
 
 });
