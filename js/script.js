@@ -89,7 +89,11 @@ $(document).ready(function() {
             title: zoneName,
         });
         marker.setIcon(icons[0])
-        marker.bindLabel(zoneName)
+        if (L.Browser.touch) {
+
+        } else {
+            marker.bindLabel(zoneName)
+        }
         marker.setOpacity(0.75)
         allMarkers.addLayer(marker)
         return marker
