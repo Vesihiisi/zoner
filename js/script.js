@@ -170,6 +170,7 @@ $(document).ready(function() {
                 $(".ownerName").html(currentOwner);
                 $(".taken").html("Taken: " + $.format.date(locale_date, "E dd MMM HH:mm"))
                 $(".taken").append(" (" + $.format.prettyDate(locale_date) + ")")
+                printInfoUser(currentOwner)
             } else {
                 $(".ownerName").html("This zone is neutral.")
                 $(".taken").html("It hasn't been taken over this round.")
@@ -182,6 +183,36 @@ $(document).ready(function() {
                 data: data,
                 dataType: "json",
                 url: "getZoneInfo.php"
+            })
+        }
+        if (typeof(nameOrId) === 'number') {
+            var data = {
+                id: nameOrId,
+            }
+        } else if (typeof(nameOrId) === 'string') {
+            var data = {
+                name: nameOrId,
+            }
+        }
+        ajax(data).done(function(result) {
+            fillInfobox(result)
+        })
+    }
+
+    function printInfoUser(nameOrId) {
+        function fillInfobox(userData) {
+            var userRank = userData[0]["rank"]
+            var usersZones = userData[0].zones
+            var zonesCount = usersZones.length
+            $(".ownerRank").html(userRank)
+            $(".numberOfZones").html(zonesCount)
+        }
+        function ajax(data) {
+            return $.ajax({
+                type: "POST",
+                data: data,
+                dataType: "json",
+                url: "getUserInfo.php"
             })
         }
         if (typeof(nameOrId) === 'number') {
@@ -269,6 +300,4 @@ $(document).ready(function() {
     var map = createMap('mapContainer');
     populateMap(map);
     setUpSearchForm();
-
-
 });
