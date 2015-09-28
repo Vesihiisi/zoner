@@ -77,6 +77,9 @@ $(document).ready(function() {
         }).addTo(map);
         allMarkers.addTo(map)
         circles.addTo(map)
+        map.on('moveend', function() {
+            populateMap(map);
+        })
         return map
     }
 
@@ -87,22 +90,22 @@ $(document).ready(function() {
         });
         marker.setIcon(icons[0])
         marker.bindLabel(zoneName)
-        marker.setOpacity(0.5)
+        marker.setOpacity(0.75)
         allMarkers.addLayer(marker)
         return marker
     }
 
+
     function selectMarker(marker) {
         circles.clearLayers()
-        var circle = new L.circle(marker.getLatLng(), 150, {
+        var circle = new L.circleMarker(marker.getLatLng(), {
             fill: false,
-            color: "red",
-            fillOpacity: 0.5
+            color: "#CA0000",
+            fillOpacity: 0.7,
+            radius: 15,
         })
-        console.log(circle)
-        console.log(circles)
         circles.addLayer(circle)
-
+        printInfoZone(marker.options.zoneName)
     }
 
     function mapData(zoneData) {
@@ -129,6 +132,12 @@ $(document).ready(function() {
         var south = map.getBounds().getSouth();
         var west = map.getBounds().getWest();
         var allZoneNames = [];
+        allMarkers.eachLayer(function(layer) {
+            allZoneNames.push(layer.options.zoneName)
+        })
+        coloredMarkers.eachLayer(function(layer) {
+            allZoneNames.push(layer.options.zoneName)
+        })
         var geoData = {
             "name": "<?php echo $zoneName; ?>",
             "north": north,
@@ -137,12 +146,6 @@ $(document).ready(function() {
             "west": west,
             "exclude": JSON.stringify(allZoneNames),
         };
-        allMarkers.eachLayer(function(layer) {
-            allZoneNames.push(layer.options.zoneName)
-        })
-        coloredMarkers.eachLayer(function(layer) {
-            allZoneNames.push(layer.options.zoneName)
-        })
         ajax(geoData).done(function(result) {
             mapData(result)
         })
@@ -151,19 +154,22 @@ $(document).ready(function() {
 
     function printInfoZone(nameOrId) {
         function fillInfobox(zoneData) {
-            console.log(zoneData[0])
             var zoneName = zoneData[0]["name"];
-            var currentOwner = zoneData[0]["currentOwner"]["name"];
             var takeoverPoints = zoneData[0]["takeoverPoints"];
             var pph = zoneData[0]["pointsPerHour"]
-            var lastTaken = zoneData[0]["dateLastTaken"]
-            locale_date = parseDate(lastTaken)
-            console.log(currentOwner)
             $(".zoneName").html(zoneName);
             $(".zoneName").append(" (" + takeoverPoints.toString() + ", +" + pph.toString() + ")")
-            $(".ownerName").html(currentOwner);
-            $(".taken").html("Taken: " + $.format.date(locale_date, "dd/MM/yyyy HH:mm:ss"))
-            $(".taken").append(" (" + $.format.prettyDate(locale_date) + ")")
+            if (typeof(zoneData[0]["currentOwner"]) !== 'undefined') {
+                var currentOwner = zoneData[0]["currentOwner"]["name"];
+                var lastTaken = zoneData[0]["dateLastTaken"]
+                locale_date = parseDate(lastTaken)
+                $(".ownerName").html(currentOwner);
+                $(".taken").html("Taken: " + $.format.date(locale_date, "dd/MM/yyyy HH:mm:ss"))
+                $(".taken").append(" (" + $.format.prettyDate(locale_date) + ")")
+            } else {
+                $(".ownerName").html("This zone is neutral.")
+                $(".taken").html("It hasn't been taken over this round.")
+            }
         }
 
         function ajax(data) {
@@ -191,18 +197,66 @@ $(document).ready(function() {
     function markerClicker() {
         var zoneName = this.options.zoneName;
         selectMarker(this)
-        printInfoZone(zoneName)
+
     }
 
     function addHandlerToMarker(marker) {
         marker.on("click", markerClicker)
     }
 
-    function main() {
-        var map = createMap('map');
-        populateMap(map);
+    function panToZone(zoneName) {
+        var data = {
+            "name": zoneName,
+        };
+        var latLong = [];
+        function ajax(data) {
+            return $.ajax({
+                type: "POST",
+                data: data,
+                dataType: "json",
+                url: "getZoneInfo.php"
+            })
+        }
+        ajax(data).done(function(response) {
+            latLong.push(response[0]["latitude"]);
+            latLong.push(response[0]["longitude"]);
+            map.setView([latLong[0], latLong[1]]);
+            setTimeout(function() {
+                allMarkers.eachLayer(function(layer) {
+                    if (layer.options.zoneName == zoneName) {
+                        selectMarker(layer)
+                    }
+                })
+            }, 200)
+        })
     }
 
-    main()
+
+    var map = createMap('mapContainer');
+    populateMap(map);
+
+    $("#z").autocomplete({
+        source: "autocomplete.php",
+        minLength: 2,
+        select: function(event, ui) {
+            $(this).val(ui.item.value);
+            if (event.keyCode == 13) {
+                $('#z').submit()
+            }
+        }
+    });
+
+
+    $("#searchForm").on('submit', function(e) {
+        e.preventDefault()
+        panToZone($("#z").val())
+    })
+
+    $("#search").click(function() {
+        panToZone($("#z").val())
+    })
+
+
+
 
 });
