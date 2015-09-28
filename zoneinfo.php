@@ -15,7 +15,7 @@
 <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-label/v0.2.1/leaflet.label.css' rel='stylesheet' />
 <script src="js/jquery-dateFormat.min.js"></script>
 <script src="js/script.js"></script>
-<title><?php echo $pageTitle?> | turf zoner</title>
+<title>turf zoneinfo</title>
 </head>
 <body>
 <?php include("header.php");?>
