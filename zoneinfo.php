@@ -21,7 +21,7 @@
 <?php include("header.php");?>
 
 <main>
-<div class="map" id ="map">
+<div class="map" id ="mapContainer">
 </div>
 <div class="info" id="info">
 <div class="info-header"><p class="zoneName"></p></div>

@@ -80,6 +80,7 @@ $data_decoded = gzdecode($data);
 $array = json_decode($data_decoded, true);
 echo "number of elements in array: " .count($array) . "<br>";
 
+//insertZones($array);
 
 $time_end = microtime(true);
 $execution_time = $time_end - $time_start;

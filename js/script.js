@@ -164,7 +164,7 @@ $(document).ready(function() {
                 var lastTaken = zoneData[0]["dateLastTaken"]
                 locale_date = parseDate(lastTaken)
                 $(".ownerName").html(currentOwner);
-                $(".taken").html("Taken: " + $.format.date(locale_date, "dd/MM/yyyy HH:mm:ss"))
+                $(".taken").html("Taken: " + $.format.date(locale_date, "E dd MMM HH:mm"))
                 $(".taken").append(" (" + $.format.prettyDate(locale_date) + ")")
             } else {
                 $(".ownerName").html("This zone is neutral.")
@@ -197,7 +197,6 @@ $(document).ready(function() {
     function markerClicker() {
         var zoneName = this.options.zoneName;
         selectMarker(this)
-
     }
 
     function addHandlerToMarker(marker) {
@@ -209,6 +208,7 @@ $(document).ready(function() {
             "name": zoneName,
         };
         var latLong = [];
+
         function ajax(data) {
             return $.ajax({
                 type: "POST",
@@ -218,45 +218,53 @@ $(document).ready(function() {
             })
         }
         ajax(data).done(function(response) {
-            latLong.push(response[0]["latitude"]);
-            latLong.push(response[0]["longitude"]);
-            map.setView([latLong[0], latLong[1]]);
-            setTimeout(function() {
-                allMarkers.eachLayer(function(layer) {
-                    if (layer.options.zoneName == zoneName) {
-                        selectMarker(layer)
-                    }
-                })
-            }, 200)
+            if (typeof(response[0]) !== 'undefined') {
+                $("#z").val("")
+                latLong.push(response[0]["latitude"]);
+                latLong.push(response[0]["longitude"]);
+                map.setView([latLong[0], latLong[1]]);
+                setTimeout(function() {
+                    allMarkers.eachLayer(function(layer) {
+                        if (layer.options.zoneName == zoneName) {
+                            selectMarker(layer)
+                        }
+                    })
+                }, 200)
+
+            } else {
+                console.log("zone not found")
+            }
+
+        })
+    }
+
+    function setUpSearchForm() {
+        $("#z").autocomplete({
+            source: "autocomplete.php",
+            minLength: 2,
+            select: function(event, ui) {
+                $(this).val(ui.item.value);
+                if (event.keyCode == 13) {
+                    $('#z').submit()
+                }
+            }
+        });
+
+        $("#searchForm").on('submit', function(e) {
+            e.preventDefault()
+            panToZone($("#z").val())
+
+        })
+
+        $("#search").click(function() {
+            panToZone($("#z").val())
         })
     }
 
 
     var map = createMap('mapContainer');
     populateMap(map);
-
-    $("#z").autocomplete({
-        source: "autocomplete.php",
-        minLength: 2,
-        select: function(event, ui) {
-            $(this).val(ui.item.value);
-            if (event.keyCode == 13) {
-                $('#z').submit()
-            }
-        }
-    });
-
-
-    $("#searchForm").on('submit', function(e) {
-        e.preventDefault()
-        panToZone($("#z").val())
-    })
-
-    $("#search").click(function() {
-        panToZone($("#z").val())
-    })
-
-
+    setUpSearchForm();
 
 
 });
