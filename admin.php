@@ -18,7 +18,8 @@
 <span class="noOfZonesDb"></span><br>
 <input type="button" value="Add new zones to database" id="addNew">
 <span class="addNewInfo"></span><br>
-
+<input type="button" value="Update zone database" id="updateZones">
+<span class="updateZones"></span><br>
 </main>
 </body>
 </html>
