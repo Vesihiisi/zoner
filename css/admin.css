@@ -1,0 +1,18 @@
+@import url('http://fonts.googleapis.com/css?family=Open+Sans:600,400,300');
+
+body {
+    font-family: "Open Sans", sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+}
+
+input[type=button] {
+    height: 40px;
+    width: 300px;
+    border-radius: 2px;
+    padding: 0 20px;
+    background-color: #3B90FF;
+    color: white;
+    border: none;
+    margin: 0.6em;
+}
