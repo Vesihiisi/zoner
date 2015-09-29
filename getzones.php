@@ -67,18 +67,21 @@ function addNewRegionsToDb() {
     insertRegions($regionsData);
 }
 
-
-$opts = array(
-    'http' => array(
+function getNoOfZones() {
+    $opts = array(
+        'http' => array(
         'header' => 'Accept-Encoding: gzip'
     ) ,
-);
-$context = stream_context_create($opts);
+        );
+    $context = stream_context_create($opts);
+    $data = file_get_contents($urlZonesAll, false, $context);
+    $data_decoded = gzdecode($data);
+    $array = json_decode($data_decoded, true);
+    echo "number of elements in array: " .count($array) . "<br>";
+}
 
-$data = file_get_contents($urlZonesAll, false, $context);
-$data_decoded = gzdecode($data);
-$array = json_decode($data_decoded, true);
-echo "number of elements in array: " .count($array) . "<br>";
+
+
 
 //insertZones($array);
 
