@@ -24,7 +24,7 @@
 <div class="map" id ="mapContainer">
 </div>
 <div class="info" id="info">
-<div class="info-header"><p class="zoneName"></p></div>
+<div class="info-header"><p class="region"></p><p class="zoneName"></p></div>
 <div class="info-body">
 <div class="info-zone"><p class="zoneData"></p></div>
     <div class="info-user"><span class="ownerName"></span><span class="ownerRank"></span><span class="numberOfZones"></span></div>

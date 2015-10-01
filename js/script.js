@@ -161,8 +161,10 @@ $(document).ready(function() {
             var zoneName = zoneData[0]["name"];
             var takeoverPoints = zoneData[0]["takeoverPoints"];
             var pph = zoneData[0]["pointsPerHour"]
+            var region = zoneData[0]["region"]["name"]
             $(".zoneName").html(zoneName);
             $(".zoneName").append(" (" + takeoverPoints.toString() + ", +" + pph.toString() + ")")
+            $(".region").html(region)
             if (typeof(zoneData[0]["currentOwner"]) !== 'undefined') {
                 var currentOwner = zoneData[0]["currentOwner"]["name"];
                 var lastTaken = zoneData[0]["dateLastTaken"]

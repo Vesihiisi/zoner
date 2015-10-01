@@ -42,7 +42,7 @@ main {
     width: 100%;
     padding: 0;
     margin: 0;
-    line-height: 150%;
+    line-height: 140%;
     overflow: auto;
     position: relative;
 }
@@ -96,6 +96,10 @@ main {
     text-transform: uppercase;
     letter-spacing: 1px;
     font-size: 16px;
+}
+
+.region {
+    font-size: 13px;
 }
 
 a {
