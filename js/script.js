@@ -162,6 +162,7 @@ $(document).ready(function() {
             var takeoverPoints = zoneData[0]["takeoverPoints"];
             var pph = zoneData[0]["pointsPerHour"]
             var region = zoneData[0]["region"]["name"]
+            document.title = zoneName + " | turf zoneinfo"
             $(".zoneName").html(zoneName);
             $(".zoneName").append(" (" + takeoverPoints.toString() + ", +" + pph.toString() + ")")
             $(".region").html(region)
