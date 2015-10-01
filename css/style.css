@@ -84,12 +84,6 @@ main {
 
 .info-user {}
 
-.rank-bar {
-    background-color: #ddd;
-    height: 10px;
-    width: 100%;
-    margin: 10px 0;
-}
 
 .zoneName {
     font-weight: 600;

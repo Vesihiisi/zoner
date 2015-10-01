@@ -80,6 +80,7 @@ $(document).ready(function() {
         map.on('moveend', function() {
             populateMap(map);
         })
+        $(".info").hide()
         return map
     }
 
@@ -101,6 +102,9 @@ $(document).ready(function() {
 
 
     function selectMarker(marker) {
+        if ($(".info").is(":hidden")) {
+            $(".info").fadeIn()
+        }
         circles.clearLayers()
         var circle = new L.circleMarker(marker.getLatLng(), {
             fill: false,
@@ -109,7 +113,12 @@ $(document).ready(function() {
             radius: 15,
         })
         circles.addLayer(circle)
-        printInfoZone(marker.options.zoneName)
+        fillOutInfobox(marker.options.zoneName)
+
+    }
+
+    function fillOutInfobox(zoneName) {
+        printInfoZone(zoneName)
     }
 
     function mapData(zoneData) {
@@ -215,6 +224,7 @@ $(document).ready(function() {
             var userRank = userData[0]["rank"]
             var usersZones = userData[0].zones
             var zonesCount = usersZones.length
+            var userPoints = userData[0]["points"]
             $(".ownerRank").html(userRank)
             $(".numberOfZones").html(zonesCount)
         }
