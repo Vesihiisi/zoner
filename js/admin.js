@@ -21,6 +21,13 @@ $(document).ready(function() {
         })
     }
 
+    function updateZones() {
+        $(".updateZones").html("please wait....")
+        $.get("updateZones.php", function() {
+            $(".updateZones").html("done")
+        })
+    }
+
     $("#getNo").click(function() {
         getNoOfZones();
     })
@@ -31,6 +38,10 @@ $(document).ready(function() {
 
     $("#addNew").click(function() {
         addNewZones();
+    })
+
+    $("#updateZones").click(function() {
+        updateZones();
     })
 
 });
