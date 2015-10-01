@@ -174,6 +174,8 @@ $(document).ready(function() {
                 $(".taken").append(" (" + $.format.prettyDate(locale_date) + ")")
                 printInfoUser(currentOwner)
             } else {
+                $(".ownerRank").hide();
+                $(".numberOfZones").hide();
                 $(".ownerName").html("This zone is neutral.")
                 $(".taken").html("It hasn't been taken over this round.")
             }
@@ -203,12 +205,19 @@ $(document).ready(function() {
 
     function printInfoUser(nameOrId) {
         function fillInfobox(userData) {
+            if ($(".ownerRank").is(":hidden")) {
+                $(".ownerRank").show()
+            }
+            if ($(".numberOfZones").is(":hidden")) {
+                $(".numberOfZones").show()
+            }
             var userRank = userData[0]["rank"]
             var usersZones = userData[0].zones
             var zonesCount = usersZones.length
             $(".ownerRank").html(userRank)
             $(".numberOfZones").html(zonesCount)
         }
+
         function ajax(data) {
             return $.ajax({
                 type: "POST",
